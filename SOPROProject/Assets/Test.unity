@@ -217,6 +217,7 @@ GameObject:
   - component: {fileID: 93718347}
   - component: {fileID: 93718345}
   - component: {fileID: 93718344}
+  - component: {fileID: 93718346}
   m_Layer: 0
   m_Name: GameObject
   m_TagString: Untagged
@@ -267,6 +268,34 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
     m_TypeName: UnityEventFloatIntStringByteWrapper, Assembly-CSharp, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+--- !u!114 &93718346
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 93718343}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74cc157ce8858004b8243ba84806eec5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Event: {fileID: 0}
+  Actions:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 93718343}
+        m_MethodName: 
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_TypeName: UnityEventStringStringUintWrapper, Assembly-CSharp, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!4 &93718347
 Transform:

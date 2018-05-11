@@ -13,9 +13,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   generateCode: 0
   types:
-  - float
-  - int
   - string
-  - byte
+  - string
+  - 
+  - 
   nameSpace: 
   listenerMode: 2
