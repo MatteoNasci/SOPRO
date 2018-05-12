@@ -1,0 +1,58 @@
+﻿<#@ template language="C#" #>
+<#@ output extension=".cs" #>
+using System;
+using UnityEngine;
+<# if(Namespace != null && Namespace.Length > 0)
+{ #>
+namespace <#= Namespace #>
+{
+<# } #>
+    /// <summary>
+    /// Listener for Scriptable Object event
+    /// </summary>
+    [Serializable]
+    public class <#= ClassName #> : MonoBehaviour
+    {
+        [SerializeField]
+        [Tooltip("Event to register with.")]
+        private <#= SOEventTypeName #> Event;
+        [SerializeField]
+        [Tooltip("Response to invoke when Event is raised.")]
+        private <#= UnityEventWrapperTypeName #> Actions;
+
+        /// <summary>
+        /// Adds listener to event
+        /// </summary>
+        <#= RegisterMethodSignature #>
+        {
+            Event.AddListener(this);
+        }
+        /// <summary>
+        /// Removes listener from event
+        /// </summary>
+        <#= UnregisterMethodSignature #>
+        {
+            Event.RemoveListener(this);
+        }
+        /// <summary>
+        /// Invokes unity event
+        /// </summary>
+        internal void OnEventRaised(<#= GenericArgumentsWithTypes #>)
+        {
+            Actions.Invoke(<#= GenericArguments #>);
+        }
+    }
+<# if(Namespace != null && Namespace.Length > 0)
+{ #>
+}
+<# } #>
+<#+
+public string Namespace { get; set; }
+public string SOEventTypeName { get; set; }
+public string UnityEventWrapperTypeName { get; set; }
+public string ClassName { get; set; }
+public string RegisterMethodSignature { get; set; }
+public string UnregisterMethodSignature { get; set; }
+public string GenericArgumentsWithTypes { get; set; }
+public string GenericArguments { get; set; }
+#>

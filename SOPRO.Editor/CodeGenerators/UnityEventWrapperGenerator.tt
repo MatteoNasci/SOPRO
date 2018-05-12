@@ -1,0 +1,23 @@
+﻿<#@ template language="C#" #>
+<#@ output extension=".cs" #>
+using System;
+using UnityEngine.Events;
+<# if(Namespace != null && Namespace.Length > 0)
+{ #>
+namespace <#= Namespace #>
+{
+<# } #>
+    /// <summary>
+    /// Wrapper for a unity event, usefull in order to see generic unityevent-T- in inspector
+    /// </summary>
+    [Serializable]
+    public class <#= ClassName #> : <#= UnityEventTypeName #> { }
+<# if(Namespace != null && Namespace.Length > 0)
+{ #>
+}
+<# } #>
+<#+
+public string Namespace { get; set; }
+public string UnityEventTypeName { get; set; }
+public string ClassName { get; set; }
+#>

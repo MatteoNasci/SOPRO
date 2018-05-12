@@ -1,0 +1,50 @@
+﻿<#@ template language="C#" #>
+<#@ output extension=".cs" #>
+<#
+string args = string.Empty;
+for(int x = 0; x < AllValidTypes.Length ; x++)
+{
+	args = args + "e.DEBUG_Value" + x;
+	if(x != AllValidTypes.Length - 1)
+	{
+		args = args + " ,";
+	}
+}
+#>
+using UnityEngine;
+using UnityEditor;
+<# if(Namespace != null && Namespace.Length > 0)
+{ #>
+namespace <#= Namespace #>
+{
+<# } #>
+    /// <summary>
+    /// Class that modifies SOEvent inspector view
+    /// </summary>
+    [CustomEditor(typeof(<#= SOEventTypeName #>))]
+    public class <#= ClassName #> : UnityEditor.Editor
+    {
+        /// <summary>
+        /// Method that modifies SOEvent inspector view
+        /// </summary>
+        public override void OnInspectorGUI()
+        {
+            base.OnInspectorGUI();
+
+            GUI.enabled = Application.isPlaying;
+
+            <#= SOEventTypeName #> e = target as <#= SOEventTypeName #>;
+            if (GUILayout.Button("Raise"))
+                e.Raise(<#= args #>);
+        }
+    }
+<# if(Namespace != null && Namespace.Length > 0)
+{ #>
+}
+<# } #>
+<#+
+public string Namespace { get; set; }
+public string[] AllValidTypes { get; set; }
+public string SOEventTypeName { get; set; }
+public string ClassName { get; set; }
+#>

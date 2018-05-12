@@ -1,0 +1,10 @@
+D:\GitProjects\Self\SOPRO\SOPRO\bin\Debug\SOPRO.dll
+D:\GitProjects\Self\SOPRO\SOPRO\bin\Debug\SOPRO.pdb
+D:\GitProjects\Self\SOPRO\SOPRO\bin\Debug\UnityEngine.dll
+D:\GitProjects\Self\SOPRO\SOPRO\bin\Debug\UnityEngine.xml
+D:\GitProjects\Self\SOPRO\SOPRO\obj\Debug\SOPRO.csprojResolveAssemblyReference.cache
+D:\GitProjects\Self\SOPRO\SOPRO\obj\Debug\SOPRO.csproj.CoreCompileInputs.cache
+D:\GitProjects\Self\SOPRO\SOPRO\obj\Debug\SOPRO.csproj.CopyComplete
+D:\GitProjects\Self\SOPRO\SOPRO\obj\Debug\SOPRO.dll
+D:\GitProjects\Self\SOPRO\SOPRO\obj\Debug\SOPRO.pdb
+D:\GitProjects\Self\SOPRO\SOPRO\bin\Debug\SOPRO.xml
