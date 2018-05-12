@@ -6,11 +6,7 @@ using UnityEditor;
     [CustomEditor(typeof(SOEventFloatIntStringByte))]
     public class SOEventFloatIntStringByteEditor : UnityEditor.Editor
     {
-			public float Value0 = default(float);
-			public int Value1 = default(int);
-			public string Value2 = default(string);
-			public byte Value3 = default(byte);
-	        /// <summary>
+        /// <summary>
         /// Method that modifies SOEvent inspector view
         /// </summary>
         public override void OnInspectorGUI()
@@ -21,6 +17,6 @@ using UnityEditor;
 
             SOEventFloatIntStringByte e = target as SOEventFloatIntStringByte;
             if (GUILayout.Button("Raise"))
-                e.Raise(Value0 ,Value1 ,Value2 ,Value3);
+                e.Raise(e.DEBUG_Value0 ,e.DEBUG_Value1 ,e.DEBUG_Value2 ,e.DEBUG_Value3);
         }
     }

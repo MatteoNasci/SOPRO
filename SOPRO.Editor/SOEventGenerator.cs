@@ -71,17 +71,67 @@ namespace SOPRO.Editor
             
             #line default
             #line hidden
-            this.Write(" : ScriptableObject\r\n    {\r\n        [SerializeField]\r\n        private readonly Li" +
-                    "st<");
+            this.Write(" : ScriptableObject\r\n    {\r\n\t");
             
-            #line 21 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\SOEventGenerator.tt"
+            #line 20 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\SOEventGenerator.tt"
+ if(ValidTypes.Length > 0)
+	{ 
+            
+            #line default
+            #line hidden
+            this.Write("\t#if UNITY_EDITOR\r\n\t\t");
+            
+            #line 23 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\SOEventGenerator.tt"
+ for(int i = 0 ; i < ValidTypes.Length ; i++)
+		{ 
+            
+            #line default
+            #line hidden
+            this.Write("\t\t\tpublic ");
+            
+            #line 25 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\SOEventGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(ValidTypes[i]));
+            
+            #line default
+            #line hidden
+            this.Write(" ");
+            
+            #line 25 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\SOEventGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture("DEBUG_Value" + i));
+            
+            #line default
+            #line hidden
+            this.Write(" = default(");
+            
+            #line 25 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\SOEventGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(ValidTypes[i]));
+            
+            #line default
+            #line hidden
+            this.Write(");\r\n\t");
+            
+            #line 26 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\SOEventGenerator.tt"
+ } 
+            
+            #line default
+            #line hidden
+            this.Write("\t#endif\r\n\t");
+            
+            #line 28 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\SOEventGenerator.tt"
+ } 
+            
+            #line default
+            #line hidden
+            this.Write("\r\n        [SerializeField]\r\n        private readonly List<");
+            
+            #line 31 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\SOEventGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(SOEventListenerTypeName));
             
             #line default
             #line hidden
             this.Write("> listeners = new List<");
             
-            #line 21 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\SOEventGenerator.tt"
+            #line 31 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\SOEventGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(SOEventListenerTypeName));
             
             #line default
@@ -89,7 +139,7 @@ namespace SOPRO.Editor
             this.Write(">();\r\n\r\n        /// <summary>\r\n        /// Invokes all listeners of this event\r\n " +
                     "       /// </summary>\r\n        public void Raise(");
             
-            #line 26 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\SOEventGenerator.tt"
+            #line 36 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\SOEventGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(GenericArgumentsWithTypes));
             
             #line default
@@ -97,7 +147,7 @@ namespace SOPRO.Editor
             this.Write(")\r\n        {\r\n            for (int i = listeners.Count - 1; i >= 0; i--)\r\n       " +
                     "         listeners[i].OnEventRaised(");
             
-            #line 29 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\SOEventGenerator.tt"
+            #line 39 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\SOEventGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(GenericArguments));
             
             #line default
@@ -106,7 +156,7 @@ namespace SOPRO.Editor
                     "     /// </summary>\r\n        /// <param name=\"listener\">listener to add</param>\r" +
                     "\n        internal void AddListener(");
             
-            #line 35 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\SOEventGenerator.tt"
+            #line 45 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\SOEventGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(SOEventListenerTypeName));
             
             #line default
@@ -121,7 +171,7 @@ namespace SOPRO.Editor
         /// <param name=""listener"">listener to remove</param>
         internal void RemoveListener(");
             
-            #line 43 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\SOEventGenerator.tt"
+            #line 53 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\SOEventGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(SOEventListenerTypeName));
             
             #line default
@@ -129,7 +179,7 @@ namespace SOPRO.Editor
             this.Write(" listener)\r\n        {\r\n            listeners.Remove(listener);\r\n        }\r\n    }\r" +
                     "\n");
             
-            #line 48 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\SOEventGenerator.tt"
+            #line 58 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\SOEventGenerator.tt"
  if(Namespace != null && Namespace.Length > 0)
 {
             
@@ -137,7 +187,7 @@ namespace SOPRO.Editor
             #line hidden
             this.Write("}\r\n");
             
-            #line 51 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\SOEventGenerator.tt"
+            #line 61 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\SOEventGenerator.tt"
 
 }
 
@@ -147,7 +197,7 @@ namespace SOPRO.Editor
             return this.GenerationEnvironment.ToString();
         }
         
-        #line 54 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\SOEventGenerator.tt"
+        #line 64 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\SOEventGenerator.tt"
 
 public string Namespace { get; set; }
 public string ClassName { get; set; }
@@ -156,6 +206,7 @@ public string AssetMenuName { get; set; }
 public string SOEventListenerTypeName { get; set; }
 public string GenericArgumentsWithTypes { get; set; }
 public string GenericArguments { get; set; }
+public string[] ValidTypes { get; set; }
 
         
         #line default

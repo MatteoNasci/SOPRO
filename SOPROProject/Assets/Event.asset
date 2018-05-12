@@ -11,3 +11,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 98f8cb4a9f060604080f9fbeb3a9ad55, type: 3}
   m_Name: Event
   m_EditorClassIdentifier: 
+  DEBUG_Value0: 0
+  DEBUG_Value1: 0
+  DEBUG_Value2: 
+  DEBUG_Value3: 0

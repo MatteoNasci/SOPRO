@@ -8,6 +8,13 @@ using System;
     [Serializable]
     public class SOEventFloatIntStringByte : ScriptableObject
     {
+		#if UNITY_EDITOR
+					public float DEBUG_Value0 = default(float);
+				public int DEBUG_Value1 = default(int);
+				public string DEBUG_Value2 = default(string);
+				public byte DEBUG_Value3 = default(byte);
+		#endif
+	
         [SerializeField]
         private readonly List<SOEventFloatIntStringByteListener> listeners = new List<SOEventFloatIntStringByteListener>();
 

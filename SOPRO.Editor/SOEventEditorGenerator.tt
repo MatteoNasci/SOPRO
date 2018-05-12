@@ -4,7 +4,7 @@
 string args = string.Empty;
 for(int x = 0; x < AllValidTypes.Length ; x++)
 {
-	args = args + "Value" + x;
+	args = args + "e.DEBUG_Value" + x;
 	if(x != AllValidTypes.Length - 1)
 	{
 		args = args + " ,";
@@ -24,10 +24,6 @@ namespace <#= Namespace #>
     [CustomEditor(typeof(<#= SOEventTypeName #>))]
     public class <#= ClassName #> : UnityEditor.Editor
     {
-	<# for(int i = 0; i < AllValidTypes.Length ; i++)
-	{ #>
-		public <#= AllValidTypes[i] #> <#= "Value" + i #> = default(<#= AllValidTypes[i] #>);
-	<# } #>
         /// <summary>
         /// Method that modifies SOEvent inspector view
         /// </summary>

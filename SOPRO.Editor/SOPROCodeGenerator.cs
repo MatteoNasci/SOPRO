@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using UnityEditor;
 namespace SOPRO.Editor
 {
     /// <summary>
@@ -155,6 +156,14 @@ namespace SOPRO.Editor
             if (editorGenerator == null)
                 editorGenerator = new SOEventEditorGenerator();
 
+            List<string> validTypes = new List<string>();
+            for (int i = 0; i < types.Length; i++)
+            {
+                string res = types[i];
+                if (res != null && res.Length > 0)
+                    validTypes.Add(res);
+            }
+
             wrapperGenerator.ClassName = wrapperClassName;
             wrapperGenerator.Namespace = nameSpace;
             wrapperGenerator.UnityEventTypeName = unityEventClassName;
@@ -175,17 +184,11 @@ namespace SOPRO.Editor
             eventGenerator.GenericArgumentsWithTypes = argumentsWithTypes;
             eventGenerator.Namespace = nameSpace;
             eventGenerator.SOEventListenerTypeName = listenerClassName;
+            eventGenerator.ValidTypes = validTypes.ToArray();
 
             editorGenerator.ClassName = editorClassName;
             editorGenerator.Namespace = (nameSpace == null || nameSpace.Length == 0) ? nameSpace : nameSpace + ".Editor";
             editorGenerator.SOEventTypeName = eventClassName;
-            List<string> validTypes = new List<string>();
-            for (int i = 0; i < types.Length; i++)
-            {
-                string res = types[i];
-                if (res != null && res.Length > 0)
-                    validTypes.Add(res);
-            }
             editorGenerator.AllValidTypes = validTypes.ToArray();
 
             string eventCode = eventGenerator.TransformText();
@@ -226,6 +229,8 @@ namespace SOPRO.Editor
                 File.WriteAllText(fileName, editorCode);
             else
                 throw new UnityException("Error occurred while attempting code generation from " + this + " , file " + fileName + " already exists");
+
+            EditorUtility.OpenFolderPanel("Temp", "Scripts", "Temp");
         }
         void OnValidate()
         {
