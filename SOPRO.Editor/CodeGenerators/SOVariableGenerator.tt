@@ -1,0 +1,74 @@
+﻿<#@ template language="C#" #>
+<#@ output extension=".cs" #>
+using UnityEngine;
+<# if(Namespace != null && Namespace.Length > 0)
+{ #>
+namespace <#= Namespace #>
+{
+<# } #>
+    /// <summary>
+    /// SO that holds a variable
+    /// </summary>
+    [CreateAssetMenu(fileName = <#= AssetFileName #>, menuName = <#= AssetMenuName #>)]
+    public class <#= ClassName #> : ScriptableObject
+    {
+#if UNITY_EDITOR
+        /// <summary>
+        /// Description of the variable, available only in UNITY_EDITOR
+        /// </summary>
+        public string DEBUG_DeveloperDescription { get { return developerDescription; } }
+        [Multiline]
+        [SerializeField]
+        private string developerDescription = "";
+#endif
+        /// <summary>
+        /// Current variable value
+        /// </summary>
+        public <#= Type #> Value { get { return this.value; } }
+        [SerializeField]
+        private <#= Type #> value;
+
+        /// <summary>
+        /// Sets value to given value
+        /// </summary>
+        /// <param name="value">new value</param>
+        public void SetValue(<#= Type #> value)
+        {
+            this.value = value;
+        }
+        /// <summary>
+        /// Sets value to given value
+        /// </summary>
+        /// <param name="value">new value</param>
+        public void SetValue(<#= ClassName #> value)
+        {
+            this.value = value.Value;
+        }
+        /// <summary>
+        /// Increases value of given amount
+        /// </summary>
+        /// <param name="amount">increase amount</param>
+        public void ApplyChange(<#= Type #> amount)
+        {
+            this.value += amount;
+        }
+        /// <summary>
+        /// Increases value of given amount
+        /// </summary>
+        /// <param name="amount">increase amount</param>
+        public void ApplyChange(<#= ClassName #> amount)
+        {
+            this.value += amount.Value;
+        }
+    }
+<# if(Namespace != null && Namespace.Length > 0)
+{ #>
+}
+<# } #>
+<#+
+public string AssetFileName { get; set; }
+public string AssetMenuName { get; set; }
+public string ClassName { get; set; }
+public string Namespace { get; set; }
+public string Type { get; set; }
+#>
