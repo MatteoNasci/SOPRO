@@ -7,13 +7,13 @@ namespace SOPRO.Editor
     /// <summary>
     /// Class that generates SO var system code
     /// </summary>
-    [CreateAssetMenu(fileName = "Generator", menuName = "SOPRO/Variables/Generator")]
+    [CreateAssetMenu(fileName = "SOPROVarGenerator", menuName = "SOPRO/Variables/Generator")]
     public class SOPROVariableSystemGenerator : ScriptableObject
     {
         /// <summary>
         /// Folder path under Assets
         /// </summary>
-        public static readonly string TargetFolderPath = Path.Combine("Scripts", "GeneratedCode");
+        public static readonly string TargetFolderPath = Path.Combine(Path.Combine("Scripts", "GeneratedCode"), "SOPROVariablesSystem");
         /// <summary>
         /// Type used
         /// </summary>
@@ -60,8 +60,8 @@ namespace SOPRO.Editor
             if (varGen == null)
                 varGen = new SOVariableGenerator();
 
-            string editorClassName = "Reference" + (type.Length > 1 ? char.ToUpper(type[0]) + type.Substring(1) : type) + "Editor";
-            string varClassName = "Variable" + (type.Length > 1 ? char.ToUpper(type[0]) + type.Substring(1) : type);
+            string editorClassName = "Reference" + (type.Length > 1 ? char.ToUpper(type[0]) + type.Substring(1) : type) + "Drawer";
+            string varClassName = "SOVariable" + (type.Length > 1 ? char.ToUpper(type[0]) + type.Substring(1) : type);
             string refClassName = "Reference" + (type.Length > 1 ? char.ToUpper(type[0]) + type.Substring(1) : type);
             string assetFileName = "\"" + varClassName + "\"";
             string assetMenuName = "\"" + "SOPRO/Variables/" + (type.Length > 1 ? char.ToUpper(type[0]) + type.Substring(1) : type) + "\"";
@@ -120,7 +120,7 @@ namespace SOPRO.Editor
             {
                 generate = false;
                 GenerateVariableCode();
-                EditorUtility.OpenFolderPanel("Temp", FullTargetFolderPath, "Temp");
+                AssetDatabase.Refresh();
             }
         }
         void Awake()

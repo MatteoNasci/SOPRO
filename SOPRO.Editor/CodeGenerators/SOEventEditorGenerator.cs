@@ -31,7 +31,7 @@ namespace SOPRO.Editor.CodeGenerators
 string args = string.Empty;
 for(int x = 0; x < AllValidTypes.Length ; x++)
 {
-	args = args + "e.DEBUG_Value" + x;
+	args = args + "e.DEBUG_" + AllValidTypes[x] + "_" + x;
 	if(x != AllValidTypes.Length - 1)
 	{
 		args = args + " ,";

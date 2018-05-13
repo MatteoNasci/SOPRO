@@ -2,6 +2,7 @@
 <#@ output extension=".cs" #>
 using System;
 using UnityEngine.Events;
+using UnityEngine;
 <# if(Namespace != null && Namespace.Length > 0)
 { #>
 namespace <#= Namespace #>

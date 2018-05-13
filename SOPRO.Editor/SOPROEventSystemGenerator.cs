@@ -20,7 +20,7 @@ namespace SOPRO.Editor
         /// <summary>
         /// Folder path under Assets
         /// </summary>
-        public static readonly string TargetFolderPath = Path.Combine("Scripts", "GeneratedCode");
+        public static readonly string TargetFolderPath = Path.Combine(Path.Combine("Scripts", "GeneratedCode"), "SOPROEventSystem");
         /// <summary>
         /// Types used in the next code generation
         /// </summary>
@@ -142,9 +142,9 @@ namespace SOPRO.Editor
 
             string eventAssetFileName = "\"Event\"";
             string eventAssetMenuName = "\"" + "SOPRO/Events/" + allTypes + "\"";
-            string eventClassName = "SOEvent" + allTypes;
-            string wrapperClassName = "UnityEvent" + allTypes + "Wrapper";
-            string editorClassName = eventClassName + "Editor";
+            string eventClassName = "SOEv" + allTypes;
+            string wrapperClassName = "UnEv" + allTypes;
+            string editorClassName = eventClassName + "Drawer";
             string listenerClassName = eventClassName + "Listener";
             string unityEventClassName = "UnityEvent" + genericTypes;
 
@@ -250,7 +250,7 @@ namespace SOPRO.Editor
             {
                 generateCode = false;
                 GenerateEventCode();
-                EditorUtility.OpenFolderPanel("Temp", FullTargetFolderPath, "Temp");
+                AssetDatabase.Refresh();
             }
         }
         void Awake()

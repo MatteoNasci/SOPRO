@@ -97,7 +97,7 @@ namespace SOPRO.Editor.CodeGenerators
             this.Write(" ");
             
             #line 25 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOEventGenerator.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture("DEBUG_Value" + i));
+            this.Write(this.ToStringHelper.ToStringWithCulture("DEBUG_" + ValidTypes[i] + "_" + i));
             
             #line default
             #line hidden
