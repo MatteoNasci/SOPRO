@@ -25,89 +25,89 @@ namespace SOPRO.Editor.CodeGenerators
         /// </summary>
         public virtual string TransformText()
         {
-            this.Write("using UnityEditor;\nusing UnityEngine;\n");
+            this.Write("using UnityEditor;\r\nusing UnityEngine;\r\n");
             
-            #line 3 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOReferenceEditorGenerator.tt"
+            #line 5 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOReferenceEditorGenerator.tt"
  if(Namespace != null && Namespace.Length > 0)
 { 
             
             #line default
             #line hidden
-            this.Write("\nnamespace ");
+            this.Write("namespace ");
             
-            #line 3 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOReferenceEditorGenerator.tt"
+            #line 7 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOReferenceEditorGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Namespace));
             
             #line default
             #line hidden
-            this.Write("\n{\n");
+            this.Write("\r\n{\r\n");
             
-            #line 3 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOReferenceEditorGenerator.tt"
+            #line 9 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOReferenceEditorGenerator.tt"
  } 
             
             #line default
             #line hidden
-            this.Write("\n\t/// <summary>\n    /// Class that displays properly a SOPRO.Reference on inspect" +
-                    "or\n    /// </summary>\n    [CustomPropertyDrawer(typeof(");
+            this.Write("\t/// <summary>\r\n    /// Class that displays properly a SOPRO.Reference on inspect" +
+                    "or\r\n    /// </summary>\r\n    [CustomPropertyDrawer(typeof(");
             
-            #line 3 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOReferenceEditorGenerator.tt"
+            #line 13 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOReferenceEditorGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ReferenceTypeName));
             
             #line default
             #line hidden
-            this.Write("))]\n    public class ");
+            this.Write("))]\r\n    public class ");
             
-            #line 3 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOReferenceEditorGenerator.tt"
+            #line 14 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOReferenceEditorGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ClassName));
             
             #line default
             #line hidden
-            this.Write(" : PropertyDrawer\n    {\n        /// <summary>\n        /// Options to display in t" +
-                    "he popup to select constant or variable.\n        /// </summary>\n        private " +
-                    "readonly string[] popupOptions = \n            { \"Use Constant\", \"Use Variable\" }" +
-                    ";\n\n        /// <summary> Cached style to use to draw the popup button. </summary" +
-                    ">\n        private GUIStyle popupStyle;\n\n        public override void OnGUI(Rect " +
-                    "position, SerializedProperty property, GUIContent label)\n        {\n            i" +
-                    "f (popupStyle == null)\n            {\n                popupStyle = new GUIStyle(G" +
-                    "UI.skin.GetStyle(\"PaneOptions\"));\n                popupStyle.imagePosition = Ima" +
-                    "gePosition.ImageOnly;\n            }\n\n            label = EditorGUI.BeginProperty" +
-                    "(position, label, property);\n            position = EditorGUI.PrefixLabel(positi" +
-                    "on, label);\n            \n            EditorGUI.BeginChangeCheck();\n\n            " +
-                    "// Get properties\n            SerializedProperty useConstant = property.FindProp" +
-                    "ertyRelative(\"useConstant\");\n            SerializedProperty constantValue = prop" +
-                    "erty.FindPropertyRelative(\"constantValue\");\n            SerializedProperty varia" +
-                    "ble = property.FindPropertyRelative(\"variable\");\n\n            // Calculate rect " +
-                    "for configuration button\n            Rect buttonRect = new Rect(position);\n     " +
-                    "       buttonRect.yMin += popupStyle.margin.top;\n            buttonRect.width = " +
-                    "popupStyle.fixedWidth + popupStyle.margin.right;\n            position.xMin = but" +
-                    "tonRect.xMax;\n\n            // Store old indent level and set it to 0, the Prefix" +
-                    "Label takes care of it\n            int indent = EditorGUI.indentLevel;\n         " +
-                    "   EditorGUI.indentLevel = 0;\n\n            int result = EditorGUI.Popup(buttonRe" +
-                    "ct, useConstant.boolValue ? 0 : 1, popupOptions, popupStyle);\n\n            useCo" +
-                    "nstant.boolValue = result == 0;\n\n            EditorGUI.PropertyField(position, \n" +
-                    "                useConstant.boolValue ? constantValue : variable, \n             " +
-                    "   GUIContent.none);\n\n            if (EditorGUI.EndChangeCheck())\n              " +
-                    "  property.serializedObject.ApplyModifiedProperties();\n\n            EditorGUI.in" +
-                    "dentLevel = indent;\n            EditorGUI.EndProperty();\n        }\n    }\n");
+            this.Write(" : PropertyDrawer\r\n    {\r\n        /// <summary>\r\n        /// Options to display i" +
+                    "n the popup to select constant or variable.\r\n        /// </summary>\r\n        pri" +
+                    "vate readonly string[] popupOptions = \r\n            { \"Use Constant\", \"Use Varia" +
+                    "ble\" };\r\n\r\n        /// <summary> Cached style to use to draw the popup button. <" +
+                    "/summary>\r\n        private GUIStyle popupStyle;\r\n\r\n        public override void " +
+                    "OnGUI(Rect position, SerializedProperty property, GUIContent label)\r\n        {\r\n" +
+                    "            if (popupStyle == null)\r\n            {\r\n                popupStyle =" +
+                    " new GUIStyle(GUI.skin.GetStyle(\"PaneOptions\"));\r\n                popupStyle.ima" +
+                    "gePosition = ImagePosition.ImageOnly;\r\n            }\r\n\r\n            label = Edit" +
+                    "orGUI.BeginProperty(position, label, property);\r\n            position = EditorGU" +
+                    "I.PrefixLabel(position, label);\r\n            \r\n            EditorGUI.BeginChange" +
+                    "Check();\r\n\r\n            // Get properties\r\n            SerializedProperty useCon" +
+                    "stant = property.FindPropertyRelative(\"useConstant\");\r\n            SerializedPro" +
+                    "perty constantValue = property.FindPropertyRelative(\"constantValue\");\r\n         " +
+                    "   SerializedProperty variable = property.FindPropertyRelative(\"variable\");\r\n\r\n " +
+                    "           // Calculate rect for configuration button\r\n            Rect buttonRe" +
+                    "ct = new Rect(position);\r\n            buttonRect.yMin += popupStyle.margin.top;\r" +
+                    "\n            buttonRect.width = popupStyle.fixedWidth + popupStyle.margin.right;" +
+                    "\r\n            position.xMin = buttonRect.xMax;\r\n\r\n            // Store old inden" +
+                    "t level and set it to 0, the PrefixLabel takes care of it\r\n            int inden" +
+                    "t = EditorGUI.indentLevel;\r\n            EditorGUI.indentLevel = 0;\r\n\r\n          " +
+                    "  int result = EditorGUI.Popup(buttonRect, useConstant.boolValue ? 0 : 1, popupO" +
+                    "ptions, popupStyle);\r\n\r\n            useConstant.boolValue = result == 0;\r\n\r\n    " +
+                    "        EditorGUI.PropertyField(position, \r\n                useConstant.boolValu" +
+                    "e ? constantValue : variable, \r\n                GUIContent.none);\r\n\r\n           " +
+                    " if (EditorGUI.EndChangeCheck())\r\n                property.serializedObject.Appl" +
+                    "yModifiedProperties();\r\n\r\n            EditorGUI.indentLevel = indent;\r\n         " +
+                    "   EditorGUI.EndProperty();\r\n        }\r\n    }\r\n");
             
-            #line 3 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOReferenceEditorGenerator.tt"
+            #line 68 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOReferenceEditorGenerator.tt"
  if(Namespace != null && Namespace.Length > 0)
 { 
             
             #line default
             #line hidden
-            this.Write("\n}\n");
+            this.Write("}\r\n");
             
-            #line 3 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOReferenceEditorGenerator.tt"
+            #line 71 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOReferenceEditorGenerator.tt"
  } 
             
             #line default
             #line hidden
-            this.Write("\n");
             return this.GenerationEnvironment.ToString();
         }
         
-        #line 3 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOReferenceEditorGenerator.tt"
+        #line 72 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOReferenceEditorGenerator.tt"
 
 public string Namespace { get; set; }
 public string ClassName { get; set; }

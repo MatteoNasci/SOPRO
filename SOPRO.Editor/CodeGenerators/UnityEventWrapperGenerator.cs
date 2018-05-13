@@ -25,9 +25,9 @@ namespace SOPRO.Editor.CodeGenerators
         /// </summary>
         public virtual string TransformText()
         {
-            this.Write("using System;\r\nusing UnityEngine.Events;\r\n");
+            this.Write("using System;\r\nusing UnityEngine.Events;\r\nusing UnityEngine;\r\n");
             
-            #line 5 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\UnityEventWrapperGenerator.tt"
+            #line 6 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\UnityEventWrapperGenerator.tt"
  if(Namespace != null && Namespace.Length > 0)
 { 
             
@@ -35,14 +35,14 @@ namespace SOPRO.Editor.CodeGenerators
             #line hidden
             this.Write("namespace ");
             
-            #line 7 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\UnityEventWrapperGenerator.tt"
+            #line 8 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\UnityEventWrapperGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Namespace));
             
             #line default
             #line hidden
             this.Write("\r\n{\r\n");
             
-            #line 9 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\UnityEventWrapperGenerator.tt"
+            #line 10 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\UnityEventWrapperGenerator.tt"
  } 
             
             #line default
@@ -51,21 +51,21 @@ namespace SOPRO.Editor.CodeGenerators
                     "eric unityevent-T- in inspector\r\n    /// </summary>\r\n    [Serializable]\r\n    pub" +
                     "lic class ");
             
-            #line 14 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\UnityEventWrapperGenerator.tt"
+            #line 15 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\UnityEventWrapperGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ClassName));
             
             #line default
             #line hidden
             this.Write(" : ");
             
-            #line 14 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\UnityEventWrapperGenerator.tt"
+            #line 15 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\UnityEventWrapperGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(UnityEventTypeName));
             
             #line default
             #line hidden
             this.Write(" { }\r\n");
             
-            #line 15 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\UnityEventWrapperGenerator.tt"
+            #line 16 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\UnityEventWrapperGenerator.tt"
  if(Namespace != null && Namespace.Length > 0)
 { 
             
@@ -73,7 +73,7 @@ namespace SOPRO.Editor.CodeGenerators
             #line hidden
             this.Write("}\r\n");
             
-            #line 18 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\UnityEventWrapperGenerator.tt"
+            #line 19 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\UnityEventWrapperGenerator.tt"
  } 
             
             #line default
@@ -81,7 +81,7 @@ namespace SOPRO.Editor.CodeGenerators
             return this.GenerationEnvironment.ToString();
         }
         
-        #line 19 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\UnityEventWrapperGenerator.tt"
+        #line 20 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\UnityEventWrapperGenerator.tt"
 
 public string Namespace { get; set; }
 public string UnityEventTypeName { get; set; }

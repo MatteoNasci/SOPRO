@@ -22,7 +22,7 @@ namespace <#= Namespace #>
 	#if UNITY_EDITOR
 		<# for(int i = 0 ; i < ValidTypes.Length ; i++)
 		{ #>
-			public <#= ValidTypes[i] #> <#= "DEBUG_Value" + i #> = default(<#= ValidTypes[i] #>);
+			public <#= ValidTypes[i] #> <#= "DEBUG_" + ValidTypes[i] + "_" + i #> = default(<#= ValidTypes[i] #>);
 	<# } #>
 	#endif
 	<# } #>
