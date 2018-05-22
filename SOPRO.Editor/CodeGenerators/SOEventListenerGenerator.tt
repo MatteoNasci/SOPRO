@@ -23,17 +23,28 @@ namespace <#= Namespace #>
         /// <summary>
         /// Adds listener to event
         /// </summary>
-        <#= RegisterMethodSignature #>
+        protected void RegisterToEvent()
         {
             Event.AddListener(this);
         }
         /// <summary>
         /// Removes listener from event
         /// </summary>
-        <#= UnregisterMethodSignature #>
+        protected void UnregisterToEvent()
         {
             Event.RemoveListener(this);
         }
+		<# if(RegisterMethodSignature != null && RegisterMethodSignature.Length > 0 && UnregisterMethodSignature != null && UnregisterMethodSignature.Length > 0)
+		{ #>
+		<#= RegisterMethodSignature #>
+        {
+            Event.AddListener(this);
+        }
+		<#= UnregisterMethodSignature #>
+        {
+            Event.RemoveListener(this);
+        }
+		<# } #>
         /// <summary>
         /// Invokes unity event
         /// </summary>

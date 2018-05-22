@@ -1,0 +1,46 @@
+﻿<#@ template language="C#" #>
+<#@ output extension=".cs" #>
+using System;
+using System.Collections.Generic;
+using UnityEngine;
+<# if(Namespace != null && Namespace.Length > 0)
+{ #>
+namespace <#= Namespace #>
+{
+<# } #>
+	/// <summary>
+    /// A class used to represent a shared container of objects
+    /// </summary>
+    [Serializable]
+    public class <#= ClassName #> : ScriptableObject
+    {
+        /// <summary>
+        /// List of elements stored
+        /// </summary>
+        public <#= FullContainerTypeName #> Elements = new <#= FullContainerTypeNameInit #>;
+		<# if(GenerateIndexer == true)
+		{ #>
+        /// <summary>
+        /// Get/Set element at the given index
+        /// </summary>
+        /// <param name="i">index</param>
+        /// <returns>value stored</returns>
+        public <#= UnderlyingTypeName #> this[int i]
+        {
+            get { return Elements[i]; }
+            set { Elements[i] = value; }
+        }
+		<# } #>
+    }
+<# if(Namespace != null && Namespace.Length > 0)
+{ #>
+}
+<# } #>
+<#+
+public string Namespace { get; set; }
+public bool GenerateIndexer { get; set; }
+public string ClassName { get; set; }
+public string FullContainerTypeName { get; set; }
+public string FullContainerTypeNameInit { get; set; }
+public string UnderlyingTypeName { get; set; }
+#>

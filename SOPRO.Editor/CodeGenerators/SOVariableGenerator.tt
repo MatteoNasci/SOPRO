@@ -21,12 +21,10 @@ namespace <#= Namespace #>
         [SerializeField]
         private string developerDescription = "";
 #endif
-        /// <summary>
-        /// Current variable value
+		/// <summary>
+        /// Value stored in the variable
         /// </summary>
-        public <#= Type #> Value { get { return this.value; } }
-        [SerializeField]
-        private <#= Type #> value;
+        public <#= Type #> Value;
 
         /// <summary>
         /// Sets value to given value
@@ -34,7 +32,7 @@ namespace <#= Namespace #>
         /// <param name="value">new value</param>
         public void SetValue(<#= Type #> value)
         {
-            this.value = value;
+            this.Value = value;
         }
         /// <summary>
         /// Sets value to given value
@@ -42,7 +40,7 @@ namespace <#= Namespace #>
         /// <param name="value">new value</param>
         public void SetValue(<#= ClassName #> value)
         {
-            this.value = value.Value;
+            this.Value = value.Value;
         }
         /// <summary>
         /// Increases value of given amount
@@ -50,7 +48,7 @@ namespace <#= Namespace #>
         /// <param name="amount">increase amount</param>
         public void ApplyChange(<#= Type #> amount)
         {
-            this.value += amount;
+            this.Value += amount;
         }
         /// <summary>
         /// Increases value of given amount
@@ -58,7 +56,15 @@ namespace <#= Namespace #>
         /// <param name="amount">increase amount</param>
         public void ApplyChange(<#= ClassName #> amount)
         {
-            this.value += amount.Value;
+            this.Value += amount.Value;
+        }
+		/// <summary>
+        /// Conversion between variable to underlying value
+        /// </summary>
+        /// <param name="reference">variable to convert</param>
+        public static implicit operator <#= Type #>(<#= ClassName #> variable)
+        {
+            return variable.Value;
         }
     }
 <# if(Namespace != null && Namespace.Length > 0)

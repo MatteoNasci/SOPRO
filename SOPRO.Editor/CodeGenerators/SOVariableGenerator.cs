@@ -25,46 +25,46 @@ namespace SOPRO.Editor.CodeGenerators
         /// </summary>
         public virtual string TransformText()
         {
-            this.Write("using UnityEngine;\n");
+            this.Write("using UnityEngine;\r\n");
             
-            #line 3 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOVariableGenerator.tt"
+            #line 4 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOVariableGenerator.tt"
  if(Namespace != null && Namespace.Length > 0)
 { 
             
             #line default
             #line hidden
-            this.Write("\nnamespace ");
+            this.Write("namespace ");
             
-            #line 3 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOVariableGenerator.tt"
+            #line 6 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOVariableGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Namespace));
             
             #line default
             #line hidden
-            this.Write("\n{\n");
+            this.Write("\r\n{\r\n");
             
-            #line 3 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOVariableGenerator.tt"
+            #line 8 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOVariableGenerator.tt"
  } 
             
             #line default
             #line hidden
-            this.Write("\n    /// <summary>\r\n    /// SO that holds a variable\r\n    /// </summary>\n    [Cre" +
+            this.Write("    /// <summary>\r\n    /// SO that holds a variable\r\n    /// </summary>\r\n    [Cre" +
                     "ateAssetMenu(fileName = ");
             
-            #line 5 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOVariableGenerator.tt"
+            #line 12 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOVariableGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(AssetFileName));
             
             #line default
             #line hidden
             this.Write(", menuName = ");
             
-            #line 5 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOVariableGenerator.tt"
+            #line 12 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOVariableGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(AssetMenuName));
             
             #line default
             #line hidden
-            this.Write(")]\n    public class ");
+            this.Write(")]\r\n    public class ");
             
-            #line 5 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOVariableGenerator.tt"
+            #line 13 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOVariableGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ClassName));
             
             #line default
@@ -80,81 +80,95 @@ namespace SOPRO.Editor.CodeGenerators
         [SerializeField]
         private string developerDescription = """";
 #endif
-        /// <summary>
-        /// Current variable value
+		/// <summary>
+        /// Value stored in the variable
         /// </summary>
         public ");
             
-            #line 9 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOVariableGenerator.tt"
+            #line 27 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOVariableGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Type));
             
             #line default
             #line hidden
-            this.Write(" Value { get { return this.value; } }\n        [SerializeField]\n        private ");
+            this.Write(" Value;\r\n\r\n        /// <summary>\r\n        /// Sets value to given value\r\n        " +
+                    "/// </summary>\r\n        /// <param name=\"value\">new value</param>\r\n        publi" +
+                    "c void SetValue(");
             
-            #line 9 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOVariableGenerator.tt"
+            #line 33 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOVariableGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Type));
             
             #line default
             #line hidden
-            this.Write(" value;\n\n        /// <summary>\r\n        /// Sets value to given value\r\n        //" +
-                    "/ </summary>\r\n        /// <param name=\"value\">new value</param>\n        public v" +
-                    "oid SetValue(");
+            this.Write(" value)\r\n        {\r\n            this.Value = value;\r\n        }\r\n        /// <summ" +
+                    "ary>\r\n        /// Sets value to given value\r\n        /// </summary>\r\n        ///" +
+                    " <param name=\"value\">new value</param>\r\n        public void SetValue(");
             
-            #line 12 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOVariableGenerator.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(Type));
-            
-            #line default
-            #line hidden
-            this.Write(" value)\n        {\n            this.value = value;\n        }\n        /// <summary>" +
-                    "\r\n        /// Sets value to given value\r\n        /// </summary>\r\n        /// <pa" +
-                    "ram name=\"value\">new value</param>\n        public void SetValue(");
-            
-            #line 15 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOVariableGenerator.tt"
+            #line 41 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOVariableGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ClassName));
             
             #line default
             #line hidden
-            this.Write(" value)\n        {\n            this.value = value.Value;\n        }\r\n        /// <s" +
+            this.Write(" value)\r\n        {\r\n            this.Value = value.Value;\r\n        }\r\n        ///" +
+                    " <summary>\r\n        /// Increases value of given amount\r\n        /// </summary>\r" +
+                    "\n        /// <param name=\"amount\">increase amount</param>\r\n        public void A" +
+                    "pplyChange(");
+            
+            #line 49 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOVariableGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(Type));
+            
+            #line default
+            #line hidden
+            this.Write(" amount)\r\n        {\r\n            this.Value += amount;\r\n        }\r\n        /// <s" +
                     "ummary>\r\n        /// Increases value of given amount\r\n        /// </summary>\r\n  " +
-                    "      /// <param name=\"amount\">increase amount</param>\n        public void Apply" +
-                    "Change(");
+                    "      /// <param name=\"amount\">increase amount</param>\r\n        public void Appl" +
+                    "yChange(");
             
-            #line 19 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOVariableGenerator.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(Type));
-            
-            #line default
-            #line hidden
-            this.Write(" amount)\n        {\n            this.value += amount;\n        }\n        /// <summa" +
-                    "ry>\r\n        /// Increases value of given amount\r\n        /// </summary>\r\n      " +
-                    "  /// <param name=\"amount\">increase amount</param>\n        public void ApplyChan" +
-                    "ge(");
-            
-            #line 22 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOVariableGenerator.tt"
+            #line 57 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOVariableGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ClassName));
             
             #line default
             #line hidden
-            this.Write(" amount)\n        {\n            this.value += amount.Value;\n        }\n    }\n");
+            this.Write(@" amount)
+        {
+            this.Value += amount.Value;
+        }
+		/// <summary>
+        /// Conversion between variable to underlying value
+        /// </summary>
+        /// <param name=""reference"">variable to convert</param>
+        public static implicit operator ");
             
-            #line 22 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOVariableGenerator.tt"
+            #line 65 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOVariableGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(Type));
+            
+            #line default
+            #line hidden
+            this.Write("(");
+            
+            #line 65 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOVariableGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(ClassName));
+            
+            #line default
+            #line hidden
+            this.Write(" variable)\r\n        {\r\n            return variable.Value;\r\n        }\r\n    }\r\n");
+            
+            #line 70 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOVariableGenerator.tt"
  if(Namespace != null && Namespace.Length > 0)
 { 
             
             #line default
             #line hidden
-            this.Write("\n}\n");
+            this.Write("}\r\n");
             
-            #line 22 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOVariableGenerator.tt"
+            #line 73 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOVariableGenerator.tt"
  } 
             
             #line default
             #line hidden
-            this.Write("\n");
             return this.GenerationEnvironment.ToString();
         }
         
-        #line 22 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOVariableGenerator.tt"
+        #line 74 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOVariableGenerator.tt"
 
 public string AssetFileName { get; set; }
 public string AssetMenuName { get; set; }

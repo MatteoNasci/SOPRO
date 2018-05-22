@@ -71,41 +71,69 @@ namespace SOPRO.Editor.CodeGenerators
             
             #line default
             #line hidden
-            this.Write(" Actions;\r\n\r\n        /// <summary>\r\n        /// Adds listener to event\r\n        /" +
-                    "// </summary>\r\n        ");
+            this.Write(@" Actions;
+
+        /// <summary>
+        /// Adds listener to event
+        /// </summary>
+        protected void RegisterToEvent()
+        {
+            Event.AddListener(this);
+        }
+        /// <summary>
+        /// Removes listener from event
+        /// </summary>
+        protected void UnregisterToEvent()
+        {
+            Event.RemoveListener(this);
+        }
+		");
             
-            #line 26 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOEventListenerGenerator.tt"
+            #line 37 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOEventListenerGenerator.tt"
+ if(RegisterMethodSignature != null && RegisterMethodSignature.Length > 0 && UnregisterMethodSignature != null && UnregisterMethodSignature.Length > 0)
+		{ 
+            
+            #line default
+            #line hidden
+            this.Write("\t\t");
+            
+            #line 39 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOEventListenerGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(RegisterMethodSignature));
             
             #line default
             #line hidden
-            this.Write("\r\n        {\r\n            Event.AddListener(this);\r\n        }\r\n        /// <summar" +
-                    "y>\r\n        /// Removes listener from event\r\n        /// </summary>\r\n        ");
+            this.Write("\r\n        {\r\n            Event.AddListener(this);\r\n        }\r\n\t\t");
             
-            #line 33 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOEventListenerGenerator.tt"
+            #line 43 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOEventListenerGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(UnregisterMethodSignature));
             
             #line default
             #line hidden
-            this.Write("\r\n        {\r\n            Event.RemoveListener(this);\r\n        }\r\n        /// <sum" +
-                    "mary>\r\n        /// Invokes unity event\r\n        /// </summary>\r\n        internal" +
-                    " void OnEventRaised(");
+            this.Write("\r\n        {\r\n            Event.RemoveListener(this);\r\n        }\r\n\t\t");
             
-            #line 40 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOEventListenerGenerator.tt"
+            #line 47 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOEventListenerGenerator.tt"
+ } 
+            
+            #line default
+            #line hidden
+            this.Write("        /// <summary>\r\n        /// Invokes unity event\r\n        /// </summary>\r\n " +
+                    "       internal void OnEventRaised(");
+            
+            #line 51 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOEventListenerGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(GenericArgumentsWithTypes));
             
             #line default
             #line hidden
             this.Write(")\r\n        {\r\n            Actions.Invoke(");
             
-            #line 42 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOEventListenerGenerator.tt"
+            #line 53 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOEventListenerGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(GenericArguments));
             
             #line default
             #line hidden
             this.Write(");\r\n        }\r\n    }\r\n");
             
-            #line 45 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOEventListenerGenerator.tt"
+            #line 56 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOEventListenerGenerator.tt"
  if(Namespace != null && Namespace.Length > 0)
 { 
             
@@ -113,7 +141,7 @@ namespace SOPRO.Editor.CodeGenerators
             #line hidden
             this.Write("}\r\n");
             
-            #line 48 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOEventListenerGenerator.tt"
+            #line 59 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOEventListenerGenerator.tt"
  } 
             
             #line default
@@ -121,7 +149,7 @@ namespace SOPRO.Editor.CodeGenerators
             return this.GenerationEnvironment.ToString();
         }
         
-        #line 49 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOEventListenerGenerator.tt"
+        #line 60 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOEventListenerGenerator.tt"
 
 public string Namespace { get; set; }
 public string SOEventTypeName { get; set; }

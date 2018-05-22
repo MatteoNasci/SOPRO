@@ -7,7 +7,7 @@ namespace SOPRO.Editor
     /// <summary>
     /// Class that generates SO var system code
     /// </summary>
-    [CreateAssetMenu(fileName = "SOPROVarGenerator", menuName = "SOPRO/Variables/Generator")]
+    [CreateAssetMenu(fileName = "VarGenerator", menuName = "SOPRO/Variables/Generator")]
     public class SOPROVariableSystemGenerator : ScriptableObject
     {
         /// <summary>
@@ -15,17 +15,9 @@ namespace SOPRO.Editor
         /// </summary>
         public static readonly string TargetFolderPath = Path.Combine(Path.Combine("Scripts", "GeneratedCode"), "SOPROVariablesSystem");
         /// <summary>
-        /// Type used
+        /// Namespace used by default
         /// </summary>
-        public string Type { get { return type; } set { type = value; } }
-        /// <summary>
-        /// namespace used
-        /// </summary>
-        public string NameSpace { get { return nameSpace; } set { nameSpace = value; } }
-        /// <summary>
-        /// True to generate code
-        /// </summary>
-        public bool Generate { get { return generate; } set { generate = value; } }
+        public const string DefaultNamespace = "SOPRO.Variables";
         /// <summary>
         /// Target folder for the output
         /// </summary>
@@ -34,12 +26,14 @@ namespace SOPRO.Editor
         /// Target Editor folder for the output
         /// </summary>
         public string FullTargetEditorFolderPath { get; private set; }
-        [SerializeField]
-        private string type;
-        [SerializeField]
-        private string nameSpace;
-        [SerializeField]
-        private bool generate = false;
+        /// <summary>
+        /// Type used
+        /// </summary>
+        public string Type;
+        /// <summary>
+        /// True to generate code
+        /// </summary>
+        public bool GenerateCode = false;
 
         private SOReferenceEditorGenerator refEditorGen;
         private SOReferenceGenerator refGen;
@@ -50,7 +44,7 @@ namespace SOPRO.Editor
         /// </summary>
         public void GenerateVariableCode()
         {
-            if (type == null || type.Length == 0)
+            if (Type == null || Type.Length == 0)
                 return;
 
             if (refEditorGen == null)
@@ -60,28 +54,28 @@ namespace SOPRO.Editor
             if (varGen == null)
                 varGen = new SOVariableGenerator();
 
-            string editorClassName = "Reference" + (type.Length > 1 ? char.ToUpper(type[0]) + type.Substring(1) : type) + "Drawer";
-            string varClassName = "SOVariable" + (type.Length > 1 ? char.ToUpper(type[0]) + type.Substring(1) : type);
-            string refClassName = "Reference" + (type.Length > 1 ? char.ToUpper(type[0]) + type.Substring(1) : type);
+            string editorClassName = "Reference" + (Type.Length > 1 ? char.ToUpper(Type[0]) + Type.Substring(1) : Type) + "Drawer";
+            string varClassName = "SOVariable" + (Type.Length > 1 ? char.ToUpper(Type[0]) + Type.Substring(1) : Type);
+            string refClassName = "Reference" + (Type.Length > 1 ? char.ToUpper(Type[0]) + Type.Substring(1) : Type);
             string assetFileName = "\"" + varClassName + "\"";
-            string assetMenuName = "\"" + "SOPRO/Variables/" + (type.Length > 1 ? char.ToUpper(type[0]) + type.Substring(1) : type) + "\"";
+            string assetMenuName = "\"" + "SOPRO/Variables/" + (Type.Length > 1 ? char.ToUpper(Type[0]) + Type.Substring(1) : Type) + "\"";
 
             refEditorGen.ClassName = editorClassName;
-            refEditorGen.Namespace = (nameSpace == null || nameSpace.Length == 0) ? nameSpace : nameSpace + ".Editor";
+            refEditorGen.Namespace = (DefaultNamespace == null || DefaultNamespace.Length == 0) ? DefaultNamespace : DefaultNamespace + ".Editor";
             refEditorGen.ReferenceTypeName = refClassName;
 
 
             refGen.ClassName = refClassName;
-            refGen.Namespace = nameSpace;
-            refGen.Type = type;
+            refGen.Namespace = DefaultNamespace;
+            refGen.Type = Type;
             refGen.VariableClassName = varClassName;
 
 
             varGen.AssetFileName = assetFileName;
             varGen.AssetMenuName = assetMenuName;
             varGen.ClassName = varClassName;
-            varGen.Namespace = nameSpace;
-            varGen.Type = type;
+            varGen.Namespace = DefaultNamespace;
+            varGen.Type = Type;
 
             string varCode = varGen.TransformText();
             string refCode = refGen.TransformText();
@@ -95,14 +89,14 @@ namespace SOPRO.Editor
             if (!File.Exists(fileName))
                 File.WriteAllText(fileName, varCode);
             else
-                throw new UnityException("Error occurred while attempting code generation from " + this + " , file " + fileName + " already exists");
+                Debug.Log("Error occurred while attempting code generation from " + this + " , file " + fileName + " already exists");
 
             fileName = Path.Combine(FullTargetFolderPath, Path.ChangeExtension(refClassName, ".cs"));
 
             if (!File.Exists(fileName))
                 File.WriteAllText(fileName, refCode);
             else
-                throw new UnityException("Error occurred while attempting code generation from " + this + " , file " + fileName + " already exists");
+                Debug.Log("Error occurred while attempting code generation from " + this + " , file " + fileName + " already exists");
 
             if (!Directory.Exists(FullTargetEditorFolderPath))
                 Directory.CreateDirectory(FullTargetEditorFolderPath);
@@ -112,13 +106,13 @@ namespace SOPRO.Editor
             if (!File.Exists(fileName))
                 File.WriteAllText(fileName, editorCode);
             else
-                throw new UnityException("Error occurred while attempting code generation from " + this + " , file " + fileName + " already exists");
+                Debug.Log("Error occurred while attempting code generation from " + this + " , file " + fileName + " already exists");
         }
         void OnValidate()
         {
-            if (generate)
+            if (GenerateCode)
             {
-                generate = false;
+                GenerateCode = false;
                 GenerateVariableCode();
                 AssetDatabase.Refresh();
             }
