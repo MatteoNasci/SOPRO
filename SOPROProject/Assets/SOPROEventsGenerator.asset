@@ -14,7 +14,7 @@ MonoBehaviour:
   GenerateCode: 0
   Types:
   - int
-  - 
-  - 
+  - float
+  - float
   - 
   ListenerMode: 2
