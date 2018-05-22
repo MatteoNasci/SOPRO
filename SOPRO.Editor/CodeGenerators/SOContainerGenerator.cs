@@ -48,9 +48,23 @@ namespace SOPRO.Editor.CodeGenerators
             #line default
             #line hidden
             this.Write("\t/// <summary>\r\n    /// A class used to represent a shared container of objects\r\n" +
-                    "    /// </summary>\r\n    [Serializable]\r\n    public class ");
+                    "    /// </summary>\r\n    [Serializable]\r\n\t[CreateAssetMenu(fileName = ");
             
             #line 15 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOContainerGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(AssetFileName));
+            
+            #line default
+            #line hidden
+            this.Write(", menuName = ");
+            
+            #line 15 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOContainerGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(AssetMenuName));
+            
+            #line default
+            #line hidden
+            this.Write(")]\r\n    public class ");
+            
+            #line 16 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOContainerGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ClassName));
             
             #line default
@@ -58,21 +72,21 @@ namespace SOPRO.Editor.CodeGenerators
             this.Write(" : ScriptableObject\r\n    {\r\n        /// <summary>\r\n        /// List of elements s" +
                     "tored\r\n        /// </summary>\r\n        public ");
             
-            #line 20 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOContainerGenerator.tt"
+            #line 21 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOContainerGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(FullContainerTypeName));
             
             #line default
             #line hidden
             this.Write(" Elements = new ");
             
-            #line 20 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOContainerGenerator.tt"
+            #line 21 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOContainerGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(FullContainerTypeNameInit));
             
             #line default
             #line hidden
             this.Write(";\r\n\t\t");
             
-            #line 21 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOContainerGenerator.tt"
+            #line 22 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOContainerGenerator.tt"
  if(GenerateIndexer == true)
 		{ 
             
@@ -82,7 +96,7 @@ namespace SOPRO.Editor.CodeGenerators
                     "/ </summary>\r\n        /// <param name=\"i\">index</param>\r\n        /// <returns>va" +
                     "lue stored</returns>\r\n        public ");
             
-            #line 28 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOContainerGenerator.tt"
+            #line 29 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOContainerGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(UnderlyingTypeName));
             
             #line default
@@ -90,14 +104,14 @@ namespace SOPRO.Editor.CodeGenerators
             this.Write(" this[int i]\r\n        {\r\n            get { return Elements[i]; }\r\n            set" +
                     " { Elements[i] = value; }\r\n        }\r\n\t\t");
             
-            #line 33 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOContainerGenerator.tt"
+            #line 34 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOContainerGenerator.tt"
  } 
             
             #line default
             #line hidden
             this.Write("    }\r\n");
             
-            #line 35 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOContainerGenerator.tt"
+            #line 36 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOContainerGenerator.tt"
  if(Namespace != null && Namespace.Length > 0)
 { 
             
@@ -105,7 +119,7 @@ namespace SOPRO.Editor.CodeGenerators
             #line hidden
             this.Write("}\r\n");
             
-            #line 38 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOContainerGenerator.tt"
+            #line 39 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOContainerGenerator.tt"
  } 
             
             #line default
@@ -113,10 +127,12 @@ namespace SOPRO.Editor.CodeGenerators
             return this.GenerationEnvironment.ToString();
         }
         
-        #line 39 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOContainerGenerator.tt"
+        #line 40 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOContainerGenerator.tt"
 
 public string Namespace { get; set; }
 public bool GenerateIndexer { get; set; }
+public string AssetFileName { get; set; }
+public string AssetMenuName { get; set; }
 public string ClassName { get; set; }
 public string FullContainerTypeName { get; set; }
 public string FullContainerTypeNameInit { get; set; }

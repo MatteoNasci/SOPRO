@@ -11,6 +11,7 @@ namespace <#= Namespace #>
 	/// <summary>
     /// A non serializable class used to represent a shared container of objects
     /// </summary>
+	[CreateAssetMenu(fileName = <#= AssetFileName #>, menuName = <#= AssetMenuName #>)]
     public class <#= ClassName #> : ScriptableObject
     {
         /// <summary>
@@ -40,6 +41,8 @@ namespace <#= Namespace #>
 public string Namespace { get; set; }
 public bool GenerateIndexer { get; set; }
 public string ClassName { get; set; }
+public string AssetFileName { get; set; }
+public string AssetMenuName { get; set; }
 public string FullContainerTypeName { get; set; }
 public string FullContainerTypeNameInit { get; set; }
 public string UnderlyingTypeName { get; set; }

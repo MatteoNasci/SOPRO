@@ -80,6 +80,8 @@ namespace SOPRO.Editor
             contGenerator.GenerateIndexer = GenerateIndexers;
             contGenerator.Namespace = DefaultNamespace;
             contGenerator.UnderlyingTypeName = UnderlyingType;
+            contGenerator.AssetFileName = "\"" + "Container" + "\"";
+            contGenerator.AssetMenuName = "\"" + "SOPRO/Containers/" + ContClassName + "\"";
 
             contRunGenerator.ClassName = ContRunClassName;
             contRunGenerator.FullContainerTypeName = (UseArray ? UnderlyingType + "[]" : FullContainerType);
@@ -87,6 +89,8 @@ namespace SOPRO.Editor
             contRunGenerator.GenerateIndexer = GenerateIndexers;
             contRunGenerator.Namespace = DefaultNamespace;
             contRunGenerator.UnderlyingTypeName = UnderlyingType;
+            contRunGenerator.AssetFileName = "\"" + "RuntimeContainer" + "\"";
+            contRunGenerator.AssetMenuName = "\"" + "SOPRO/Containers/" + ContRunClassName + "\"";
 
             string contCode = contGenerator.TransformText();
             string contRunCode = contRunGenerator.TransformText();
