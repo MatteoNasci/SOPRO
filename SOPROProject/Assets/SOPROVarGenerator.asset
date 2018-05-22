@@ -11,6 +11,5 @@ MonoBehaviour:
   m_Script: {fileID: 13872674, guid: 727f6783bbb796348a3f6fe1bc0878d7, type: 3}
   m_Name: SOPROVarGenerator
   m_EditorClassIdentifier: 
-  type: uint
-  nameSpace: 
-  generate: 0
+  Type: string
+  GenerateCode: 0

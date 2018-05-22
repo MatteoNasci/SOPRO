@@ -4,13 +4,12 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEditor;
 using SOPRO.Editor.CodeGenerators;
-
 namespace SOPRO.Editor
 {
     /// <summary>
     /// Class that generates event code
     /// </summary>
-    [CreateAssetMenu(menuName = "SOPRO/Events/Generator", fileName = "SOPROEventsGenerator")]
+    [CreateAssetMenu(menuName = "SOPRO/Events/Generator", fileName = "EvGenerator")]
     public class SOPROEventSystemGenerator : ScriptableObject
     {
         /// <summary>
@@ -22,9 +21,9 @@ namespace SOPRO.Editor
         /// </summary>
         public static readonly string TargetFolderPath = Path.Combine(Path.Combine("Scripts", "GeneratedCode"), "SOPROEventSystem");
         /// <summary>
-        /// Types used in the next code generation
+        /// Namespace used by default
         /// </summary>
-        public string[] Types { get { return types; } }
+        public const string DefaultNamespace = "SOPRO.Events";
         /// <summary>
         /// Target folder for the output
         /// </summary>
@@ -33,35 +32,19 @@ namespace SOPRO.Editor
         /// Target Editor folder for the output
         /// </summary>
         public string FullTargetEditorFolderPath { get; private set; }
-        /// <summary>
-        /// Listener mode for the next code generation
-        /// </summary>
-        public SOPROListenerGenMode ListenerMode
-        {
-            get { return listenerMode; }
-            set
-            {
-                if (Enum.IsDefined(typeof(SOPROListenerGenMode), value))
-                    listenerMode = value;
-            }
-        }
-        /// <summary>
-        /// Namespace for the next code generation
-        /// </summary>
-        public string NameSpace { get { return nameSpace; } set { nameSpace = value; } }
+
         /// <summary>
         /// Set to true in order to generate code
         /// </summary>
-        public bool GenerateCode { get { return generateCode; } set { generateCode = value; } }
-
-        [SerializeField]
-        private bool generateCode = false;
-        [SerializeField]
-        private string[] types = new string[MaxTypes];
-        [SerializeField]
-        private string nameSpace = string.Empty;
-        [SerializeField]
-        private SOPROListenerGenMode listenerMode = SOPROListenerGenMode.OnEnableOnDisable;
+        public bool GenerateCode = false;
+        /// <summary>
+        /// Types used in the next code generation
+        /// </summary>
+        public string[] Types = new string[MaxTypes];
+        /// <summary>
+        /// Listener mode for the next code generation
+        /// </summary>
+        public SOPROListenerGenMode ListenerMode = SOPROListenerGenMode.OnEnableOnDisable;
 
         private SOEventGenerator eventGenerator;
         private SOEventListenerGenerator listenerGenerator;
@@ -78,25 +61,20 @@ namespace SOPRO.Editor
             string registerMethod = string.Empty;
             string unregisterMethod = string.Empty;
 
-            if (listenerMode == SOPROListenerGenMode.AwakeDestroy)
+            if (ListenerMode == SOPROListenerGenMode.AwakeDestroy)
             {
                 registerMethod = "protected virtual void Awake()";
                 unregisterMethod = "protected virtual void OnDestroy()";
             }
-            else if (listenerMode == SOPROListenerGenMode.OnEnableOnDisable)
+            else if (ListenerMode == SOPROListenerGenMode.OnEnableOnDisable)
             {
                 registerMethod = "protected virtual void OnEnable()";
                 unregisterMethod = "protected virtual void OnDisable()";
             }
-            else
-            {
-                registerMethod = "protected void RegisterToEvent()";
-                unregisterMethod = "protected void UnregisterFromEvent()";
-            }
 
-            for (int i = 0; i < types.Length; i++)
+            for (int i = 0; i < Types.Length; i++)
             {
-                string read = types[i];
+                string read = Types[i];
                 if (read != null && read.Length > 0)
                 {
                     if (i == 0)
@@ -119,17 +97,17 @@ namespace SOPRO.Editor
             string genericTypes = string.Empty;
             string argumentsWithTypes = string.Empty;
             string arguments = string.Empty;
-            if (types[0] != null && types[0] != string.Empty)
+            if (Types[0] != null && Types[0] != string.Empty)
             {
                 genericTypes = "<";
-                for (int j = 0; j < types.Length; j++)
+                for (int j = 0; j < Types.Length; j++)
                 {
-                    if (types[j] != null && types[j] != string.Empty)
+                    if (Types[j] != null && Types[j] != string.Empty)
                     {
-                        genericTypes = genericTypes + types[j];
+                        genericTypes = genericTypes + Types[j];
                         arguments = arguments + "Value" + j;
-                        argumentsWithTypes = argumentsWithTypes + types[j] + " Value" + j;
-                        if (j != 3 && types[j + 1] != null && types[j + 1] != string.Empty)
+                        argumentsWithTypes = argumentsWithTypes + Types[j] + " Value" + j;
+                        if (j != 3 && Types[j + 1] != null && Types[j + 1] != string.Empty)
                         {
                             genericTypes = genericTypes + ", ";
                             arguments = arguments + ", ";
@@ -139,7 +117,6 @@ namespace SOPRO.Editor
                 }
                 genericTypes = genericTypes + ">";
             }
-
             string eventAssetFileName = "\"Event\"";
             string eventAssetMenuName = "\"" + "SOPRO/Events/" + allTypes + "\"";
             string eventClassName = "SOEv" + allTypes;
@@ -158,21 +135,21 @@ namespace SOPRO.Editor
                 editorGenerator = new SOEventEditorGenerator();
 
             List<string> validTypes = new List<string>();
-            for (int i = 0; i < types.Length; i++)
+            for (int i = 0; i < Types.Length; i++)
             {
-                string res = types[i];
+                string res = Types[i];
                 if (res != null && res.Length > 0)
                     validTypes.Add(res);
             }
 
             wrapperGenerator.ClassName = wrapperClassName;
-            wrapperGenerator.Namespace = nameSpace;
+            wrapperGenerator.Namespace = DefaultNamespace;
             wrapperGenerator.UnityEventTypeName = unityEventClassName;
 
             listenerGenerator.ClassName = listenerClassName;
             listenerGenerator.GenericArguments = arguments;
             listenerGenerator.GenericArgumentsWithTypes = argumentsWithTypes;
-            listenerGenerator.Namespace = nameSpace;
+            listenerGenerator.Namespace = DefaultNamespace;
             listenerGenerator.RegisterMethodSignature = registerMethod;
             listenerGenerator.UnregisterMethodSignature = unregisterMethod;
             listenerGenerator.SOEventTypeName = eventClassName;
@@ -183,12 +160,12 @@ namespace SOPRO.Editor
             eventGenerator.ClassName = eventClassName;
             eventGenerator.GenericArguments = arguments;
             eventGenerator.GenericArgumentsWithTypes = argumentsWithTypes;
-            eventGenerator.Namespace = nameSpace;
+            eventGenerator.Namespace = DefaultNamespace;
             eventGenerator.SOEventListenerTypeName = listenerClassName;
             eventGenerator.ValidTypes = validTypes.ToArray();
 
             editorGenerator.ClassName = editorClassName;
-            editorGenerator.Namespace = (nameSpace == null || nameSpace.Length == 0) ? nameSpace : nameSpace + ".Editor";
+            editorGenerator.Namespace = (DefaultNamespace == null || DefaultNamespace.Length == 0) ? DefaultNamespace : DefaultNamespace + ".Editor";
             editorGenerator.SOEventTypeName = eventClassName;
             editorGenerator.AllValidTypes = validTypes.ToArray();
 
@@ -205,21 +182,21 @@ namespace SOPRO.Editor
             if (!File.Exists(fileName))
                 File.WriteAllText(fileName, eventCode);
             else
-                throw new UnityException("Error occurred while attempting code generation from " + this + " , file " + fileName + " already exists");
+                Debug.Log("Error occurred while attempting code generation from " + this + " , file " + fileName + " already exists");
 
             fileName = Path.Combine(FullTargetFolderPath, Path.ChangeExtension(listenerClassName, ".cs"));
 
             if (!File.Exists(fileName))
                 File.WriteAllText(fileName, listenerCode);
             else
-                throw new UnityException("Error occurred while attempting code generation from " + this + " , file " + fileName + " already exists");
+                Debug.Log("Error occurred while attempting code generation from " + this + " , file " + fileName + " already exists");
 
             fileName = Path.Combine(FullTargetFolderPath, Path.ChangeExtension(wrapperClassName, ".cs"));
 
             if (!File.Exists(fileName))
                 File.WriteAllText(fileName, wrapperCode);
             else
-                throw new UnityException("Error occurred while attempting code generation from " + this + " , file " + fileName + " already exists");
+                Debug.Log("Error occurred while attempting code generation from " + this + " , file " + fileName + " already exists");
 
             if (!Directory.Exists(FullTargetEditorFolderPath))
                 Directory.CreateDirectory(FullTargetEditorFolderPath);
@@ -229,26 +206,30 @@ namespace SOPRO.Editor
             if (!File.Exists(fileName))
                 File.WriteAllText(fileName, editorCode);
             else
-                throw new UnityException("Error occurred while attempting code generation from " + this + " , file " + fileName + " already exists");
+                Debug.Log("Error occurred while attempting code generation from " + this + " , file " + fileName + " already exists");
         }
         void OnValidate()
         {
-            if (types == null)
-                types = new string[MaxTypes];
-            if (types.Length != MaxTypes)
+            if (Types == null)
+                Types = new string[MaxTypes];
+
+            if (!Enum.IsDefined(typeof(SOPROListenerGenMode), ListenerMode))
+                ListenerMode = SOPROListenerGenMode.Default;
+
+            if (Types.Length != MaxTypes)
             {
                 string[] temp = new string[MaxTypes];
                 for (int i = 0; i < temp.Length; i++)
                 {
-                    string res = i < types.Length ? types[i] : string.Empty;
+                    string res = i < Types.Length ? Types[i] : string.Empty;
                     temp[i] = res;
                 }
-                types = temp;
+                Types = temp;
             }
 
-            if (generateCode)
+            if (GenerateCode)
             {
-                generateCode = false;
+                GenerateCode = false;
                 GenerateEventCode();
                 AssetDatabase.Refresh();
             }
