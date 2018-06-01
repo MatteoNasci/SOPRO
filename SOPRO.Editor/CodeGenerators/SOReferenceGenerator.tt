@@ -16,32 +16,28 @@ namespace <#= Namespace #>
         /// <summary>
         /// Determines whenever reference should use a given value or a Variable value
         /// </summary>
-        public bool UseConstant { get { return useConstant; } set { useConstant = variable; } }
+        public bool UseConstant;
         /// <summary>
         /// Variable currently stored
         /// </summary>
-        public <#= VariableClassName #> Variable { get { return variable; } set { variable = value; } }
+        public <#= VariableClassName #> Variable;
         /// <summary>
         /// Current value
         /// </summary>
         public <#= Type #> Value
         {
-            get { return useConstant ? constantValue : variable.Value; }
+            get { return UseConstant ? constantValue : Variable.Value; }
 			set
 			{
-				if (useConstant)
+				if (UseConstant)
 				    constantValue = value;
 				else
-				    variable.Value = value;
+				    Variable.Value = value;
 			}
         }
 
         [SerializeField]
-        private bool useConstant = true;
-        [SerializeField]
         private <#= Type #> constantValue;
-        [SerializeField]
-        private <#= VariableClassName #> variable;
         /// <summary>
         /// Construct a reference with default state
         /// </summary>
@@ -54,7 +50,7 @@ namespace <#= Namespace #>
         /// <param name="value"></param>
         public <#= ClassName #>(<#= Type #> value)
         {
-            useConstant = true;
+            UseConstant = true;
             constantValue = value;
         }
         /// <summary>

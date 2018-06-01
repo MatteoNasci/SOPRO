@@ -74,9 +74,9 @@ namespace SOPRO.Editor.CodeGenerators
                     "orGUI.BeginProperty(position, label, property);\r\n            position = EditorGU" +
                     "I.PrefixLabel(position, label);\r\n            \r\n            EditorGUI.BeginChange" +
                     "Check();\r\n\r\n            // Get properties\r\n            SerializedProperty useCon" +
-                    "stant = property.FindPropertyRelative(\"useConstant\");\r\n            SerializedPro" +
+                    "stant = property.FindPropertyRelative(\"UseConstant\");\r\n            SerializedPro" +
                     "perty constantValue = property.FindPropertyRelative(\"constantValue\");\r\n         " +
-                    "   SerializedProperty variable = property.FindPropertyRelative(\"variable\");\r\n\r\n " +
+                    "   SerializedProperty variable = property.FindPropertyRelative(\"Variable\");\r\n\r\n " +
                     "           // Calculate rect for configuration button\r\n            Rect buttonRe" +
                     "ct = new Rect(position);\r\n            buttonRect.yMin += popupStyle.margin.top;\r" +
                     "\n            buttonRect.width = popupStyle.fixedWidth + popupStyle.margin.right;" +

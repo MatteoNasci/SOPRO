@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using SOPRO.Variables;
 namespace SOPRO
 {
     /// <summary>
@@ -11,14 +10,14 @@ namespace SOPRO
         /// <summary>
         /// Layer name
         /// </summary>
-        public ReferenceString LayerName;
+        public string LayerName = string.Empty;
         /// <summary>
         /// Layer index calculated at Editor time
         /// </summary>
         public int LayerIndex;
         void OnValidate()
         {
-            LayerIndex = LayerMask.NameToLayer(LayerName.Value);
+            LayerIndex = LayerMask.NameToLayer(LayerName);
         }
         /// <summary>
         /// Converts to calculated layer index value
@@ -34,7 +33,7 @@ namespace SOPRO
         /// <param name="layer">layer to convert</param>
         public static implicit operator string(LayerHolder layer)
         {
-            return layer.LayerName.Value;
+            return layer.LayerName;
         }
     }
 }

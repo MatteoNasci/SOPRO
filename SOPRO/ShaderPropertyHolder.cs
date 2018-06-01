@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using SOPRO.Variables;
 namespace SOPRO
 {
     /// <summary>
@@ -11,14 +10,14 @@ namespace SOPRO
         /// <summary>
         /// Property Name
         /// </summary>
-        public ReferenceString PropertyName;
+        public string PropertyName = string.Empty;
         /// <summary>
         /// Calculated property id at load time
         /// </summary>
         public int PropertyID;
         void OnEnable()
         {
-            PropertyID = Shader.PropertyToID(PropertyName.Value);
+            PropertyID = Shader.PropertyToID(PropertyName);
         }
         /// <summary>
         /// Converts to calculated property id value
@@ -34,7 +33,7 @@ namespace SOPRO
         /// <param name="prop">property to convert</param>
         public static implicit operator string(ShaderPropertyHolder prop)
         {
-            return prop.PropertyName.Value;
+            return prop.PropertyName;
         }
     }
 }

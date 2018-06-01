@@ -93,7 +93,7 @@ namespace SOPRO.Editor
             contRunGenerator.AssetMenuName = "\"" + "SOPRO/Containers/" + ContRunClassName + "\"";
 
             string contCode = contGenerator.TransformText();
-            string contRunCode = contRunGenerator.TransformText();
+            //string contRunCode = contRunGenerator.TransformText();
 
             if (!Directory.Exists(FullTargetFolderPath))
                 Directory.CreateDirectory(FullTargetFolderPath);
@@ -107,10 +107,10 @@ namespace SOPRO.Editor
 
             fileName = Path.Combine(FullTargetFolderPath, Path.ChangeExtension(ContRunClassName, ".cs"));
 
-            if (!File.Exists(fileName))
-                File.WriteAllText(fileName, contRunCode);
-            else
-                Debug.Log("Error occurred while attempting code generation from " + this + " , file " + fileName + " already exists");
+            //if (!File.Exists(fileName))
+            //    File.WriteAllText(fileName, contRunCode);
+            //else
+            //    Debug.Log("Error occurred while attempting code generation from " + this + " , file " + fileName + " already exists");
         }
         void OnValidate()
         {

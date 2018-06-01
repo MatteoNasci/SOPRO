@@ -60,7 +60,7 @@ namespace SOPRO.Editor.CodeGenerators
         /// <summary>
         /// Determines whenever reference should use a given value or a Variable value
         /// </summary>
-        public bool UseConstant { get { return useConstant; } set { useConstant = variable; } }
+        public bool UseConstant;
         /// <summary>
         /// Variable currently stored
         /// </summary>
@@ -71,8 +71,8 @@ namespace SOPRO.Editor.CodeGenerators
             
             #line default
             #line hidden
-            this.Write(" Variable { get { return variable; } set { variable = value; } }\r\n        /// <su" +
-                    "mmary>\r\n        /// Current value\r\n        /// </summary>\r\n        public ");
+            this.Write(" Variable;\r\n        /// <summary>\r\n        /// Current value\r\n        /// </summa" +
+                    "ry>\r\n        public ");
             
             #line 27 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOReferenceGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Type));
@@ -81,37 +81,28 @@ namespace SOPRO.Editor.CodeGenerators
             #line hidden
             this.Write(@" Value
         {
-            get { return useConstant ? constantValue : variable.Value; }
+            get { return UseConstant ? constantValue : Variable.Value; }
 			set
 			{
-				if (useConstant)
+				if (UseConstant)
 				    constantValue = value;
 				else
-				    variable.Value = value;
+				    Variable.Value = value;
 			}
         }
 
         [SerializeField]
-        private bool useConstant = true;
-        [SerializeField]
         private ");
             
-            #line 42 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOReferenceGenerator.tt"
+            #line 40 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOReferenceGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Type));
             
             #line default
             #line hidden
-            this.Write(" constantValue;\r\n        [SerializeField]\r\n        private ");
+            this.Write(" constantValue;\r\n        /// <summary>\r\n        /// Construct a reference with de" +
+                    "fault state\r\n        /// </summary>\r\n        public ");
             
             #line 44 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOReferenceGenerator.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(VariableClassName));
-            
-            #line default
-            #line hidden
-            this.Write(" variable;\r\n        /// <summary>\r\n        /// Construct a reference with default" +
-                    " state\r\n        /// </summary>\r\n        public ");
-            
-            #line 48 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOReferenceGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ClassName));
             
             #line default
@@ -120,21 +111,21 @@ namespace SOPRO.Editor.CodeGenerators
                     "given an initial value\r\n        /// </summary>\r\n        /// <param name=\"value\">" +
                     "</param>\r\n        public ");
             
-            #line 55 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOReferenceGenerator.tt"
+            #line 51 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOReferenceGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ClassName));
             
             #line default
             #line hidden
             this.Write("(");
             
-            #line 55 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOReferenceGenerator.tt"
+            #line 51 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOReferenceGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Type));
             
             #line default
             #line hidden
             this.Write(@" value)
         {
-            useConstant = true;
+            UseConstant = true;
             constantValue = value;
         }
         /// <summary>
@@ -143,21 +134,21 @@ namespace SOPRO.Editor.CodeGenerators
         /// <param name=""reference"">reference to convert</param>
         public static implicit operator ");
             
-            #line 64 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOReferenceGenerator.tt"
+            #line 60 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOReferenceGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Type));
             
             #line default
             #line hidden
             this.Write("(");
             
-            #line 64 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOReferenceGenerator.tt"
+            #line 60 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOReferenceGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ClassName));
             
             #line default
             #line hidden
             this.Write(" reference)\r\n        {\r\n            return reference.Value;\r\n        }\r\n    }\r\n");
             
-            #line 69 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOReferenceGenerator.tt"
+            #line 65 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOReferenceGenerator.tt"
  if(Namespace != null && Namespace.Length > 0)
 { 
             
@@ -165,7 +156,7 @@ namespace SOPRO.Editor.CodeGenerators
             #line hidden
             this.Write("}\r\n");
             
-            #line 72 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOReferenceGenerator.tt"
+            #line 68 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOReferenceGenerator.tt"
  } 
             
             #line default
@@ -173,7 +164,7 @@ namespace SOPRO.Editor.CodeGenerators
             return this.GenerationEnvironment.ToString();
         }
         
-        #line 73 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOReferenceGenerator.tt"
+        #line 69 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOReferenceGenerator.tt"
 
 public string ClassName { get; set; }
 public string Namespace { get; set; }
