@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using SOPRO.Variables;
 namespace SOPRO
 {
     /// <summary>
@@ -11,14 +10,14 @@ namespace SOPRO
         /// <summary>
         /// Property Name
         /// </summary>
-        public ReferenceString PropertyName;
+        public string PropertyName = string.Empty;
         /// <summary>
         /// Calculated property hash at load time
         /// </summary>
         public int PropertyHash;
         void OnEnable()
         {
-            PropertyHash = Animator.StringToHash(PropertyName.Value);
+            PropertyHash = Animator.StringToHash(PropertyName);
         }
         /// <summary>
         /// Converts to calculated property hash value
@@ -34,7 +33,7 @@ namespace SOPRO
         /// <param name="prop">property to convert</param>
         public static implicit operator string(AnimatorPropertyHolder prop)
         {
-            return prop.PropertyName.Value;
+            return prop.PropertyName;
         }
     }
 }
