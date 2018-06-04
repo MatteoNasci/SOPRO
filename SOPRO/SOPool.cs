@@ -81,6 +81,15 @@ namespace SOPRO
             return elements.Count == 0 ? GameObject.Instantiate(Prefab) : elements.Dequeue();
         }
         /// <summary>
+        /// Requests an element from the pool. No further action will be performed on the object
+        /// </summary>
+        /// <param name="parent">transform to use as the requested element parent. Used only on instantiated elements</param>
+        /// <returns>the requested element instance</returns>
+        public GameObject DirectGet(Transform parent)
+        {
+            return elements.Count == 0 ? GameObject.Instantiate(Prefab, parent) : elements.Dequeue();
+        }
+        /// <summary>
         /// Requests an element from the pool.
         /// </summary>
         /// <param name="parent">transform to use as the requested element parent. Used only on instantiated elements</param>
@@ -188,16 +197,14 @@ namespace SOPRO
             while (elements.Count > value)
             {
                 GameObject obj = elements.Dequeue();
-                if (onDestroy != null)
-                    onDestroy(obj);
+                onDestroy?.Invoke(obj);
                 GameObject.Destroy(obj);
             }
             while (elements.Count < value)
             {
                 GameObject obj = GameObject.Instantiate(Prefab, position, rotation, parent);
                 obj.SetActive(false);
-                if (onRecycle != null)
-                    onRecycle(obj);
+                onRecycle?.Invoke(obj);
                 elements.Enqueue(obj);
             }
         }
