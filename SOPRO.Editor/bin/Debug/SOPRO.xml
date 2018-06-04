@@ -58,6 +58,33 @@
             </summary>
             <param name="layer">layer to convert</param>
         </member>
+        <member name="T:SOPRO.LayerMaskHolder">
+            <summary>
+            Class that holds a set of layers and calculates its index at Editor time
+            </summary>
+        </member>
+        <member name="F:SOPRO.LayerMaskHolder.LayerMask">
+            <summary>
+            Layer mask
+            </summary>
+        </member>
+        <member name="F:SOPRO.LayerMaskHolder.LayerMaskIndex">
+            <summary>
+            Layer mask index calculated at Editor time
+            </summary>
+        </member>
+        <member name="M:SOPRO.LayerMaskHolder.op_Implicit(SOPRO.LayerMaskHolder)~System.Int32">
+            <summary>
+            Converts to calculated layer index value
+            </summary>
+            <param name="layer">layer to convert</param>
+        </member>
+        <member name="M:SOPRO.LayerMaskHolder.op_Implicit(SOPRO.LayerMaskHolder)~UnityEngine.LayerMask">
+            <summary>
+            Converts to layer mask
+            </summary>
+            <param name="layer">layer to convert</param>
+        </member>
         <member name="T:SOPRO.ShaderPropertyHolder">
             <summary>
             Class that holds a shader property name and calculates its id value at load time
@@ -136,6 +163,13 @@
             <summary>
             Requests an element from the pool. No further action will be performed on the object
             </summary>
+            <returns>the requested element instance</returns>
+        </member>
+        <member name="M:SOPRO.SOPool.DirectGet(UnityEngine.Transform)">
+            <summary>
+            Requests an element from the pool. No further action will be performed on the object
+            </summary>
+            <param name="parent">transform to use as the requested element parent. Used only on instantiated elements</param>
             <returns>the requested element instance</returns>
         </member>
         <member name="M:SOPRO.SOPool.Get(UnityEngine.Transform,System.Action{UnityEngine.GameObject})">
