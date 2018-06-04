@@ -17,6 +17,10 @@ namespace SOPRO
         public int LayerMaskIndex;
         void OnValidate()
         {
+            OnEnable();
+        }
+        void OnEnable()
+        {
             LayerMaskIndex = LayerMask.value;
         }
         /// <summary>

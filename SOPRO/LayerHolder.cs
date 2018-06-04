@@ -17,6 +17,10 @@ namespace SOPRO
         public int LayerIndex;
         void OnValidate()
         {
+            OnEnable();
+        }
+        void OnEnable()
+        {
             LayerIndex = LayerMask.NameToLayer(LayerName);
         }
         /// <summary>
