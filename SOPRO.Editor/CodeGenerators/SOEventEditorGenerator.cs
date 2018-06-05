@@ -31,7 +31,7 @@ namespace SOPRO.Editor.CodeGenerators
 string args = string.Empty;
 for(int x = 0; x < AllValidTypes.Length ; x++)
 {
-	args = args + "e.DEBUG_" + AllValidTypes[x] + "_" + x;
+	args = args + "obj.DEBUG_" + AllValidTypes[x] + "_" + x;
 	if(x != AllValidTypes.Length - 1)
 	{
 		args = args + " ,";
@@ -78,8 +78,14 @@ for(int x = 0; x < AllValidTypes.Length ; x++)
             
             #line default
             #line hidden
-            this.Write(@" : UnityEditor.Editor
-    {
+            this.Write(" : UnityEditor.Editor\r\n    {\r\n\t\tprivate ");
+            
+            #line 27 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOEventEditorGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(SOEventTypeName));
+            
+            #line default
+            #line hidden
+            this.Write(@" obj;
         /// <summary>
         /// Method that modifies SOEvent inspector view
         /// </summary>
@@ -89,30 +95,24 @@ for(int x = 0; x < AllValidTypes.Length ; x++)
 
             GUI.enabled = Application.isPlaying;
 
-            ");
-            
-            #line 36 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOEventEditorGenerator.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(SOEventTypeName));
-            
-            #line default
-            #line hidden
-            this.Write(" e = target as ");
-            
-            #line 36 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOEventEditorGenerator.tt"
-            this.Write(this.ToStringHelper.ToStringWithCulture(SOEventTypeName));
-            
-            #line default
-            #line hidden
-            this.Write(";\r\n            if (GUILayout.Button(\"Raise\"))\r\n                e.Raise(");
+            if (GUILayout.Button(""Raise""))
+                obj.Raise(");
             
             #line 38 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOEventEditorGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(args));
             
             #line default
             #line hidden
-            this.Write(");\r\n        }\r\n    }\r\n");
+            this.Write(");\r\n        }\r\n\t\tvoid OnEnable()\r\n\t\t{\r\n\t\t\tthis.obj = target as ");
             
-            #line 41 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOEventEditorGenerator.tt"
+            #line 42 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOEventEditorGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(SOEventTypeName));
+            
+            #line default
+            #line hidden
+            this.Write(";\r\n\t\t}\r\n    }\r\n");
+            
+            #line 45 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOEventEditorGenerator.tt"
  if(Namespace != null && Namespace.Length > 0)
 { 
             
@@ -120,7 +120,7 @@ for(int x = 0; x < AllValidTypes.Length ; x++)
             #line hidden
             this.Write("}\r\n");
             
-            #line 44 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOEventEditorGenerator.tt"
+            #line 48 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOEventEditorGenerator.tt"
  } 
             
             #line default
@@ -128,7 +128,7 @@ for(int x = 0; x < AllValidTypes.Length ; x++)
             return this.GenerationEnvironment.ToString();
         }
         
-        #line 45 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOEventEditorGenerator.tt"
+        #line 49 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOEventEditorGenerator.tt"
 
 public string Namespace { get; set; }
 public string[] AllValidTypes { get; set; }

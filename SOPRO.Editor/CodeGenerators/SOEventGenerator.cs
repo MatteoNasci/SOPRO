@@ -71,23 +71,23 @@ namespace SOPRO.Editor.CodeGenerators
             
             #line default
             #line hidden
-            this.Write(" : ScriptableObject\r\n    {\r\n\t");
+            this.Write(" : ScriptableObject\r\n    {\r\n\t\t");
             
             #line 20 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOEventGenerator.tt"
  if(ValidTypes.Length > 0)
-	{ 
-            
-            #line default
-            #line hidden
-            this.Write("\t#if UNITY_EDITOR\r\n\t\t");
-            
-            #line 23 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOEventGenerator.tt"
- for(int i = 0 ; i < ValidTypes.Length ; i++)
 		{ 
             
             #line default
             #line hidden
-            this.Write("\t\t\tpublic ");
+            this.Write("\t\t#if UNITY_EDITOR\r\n\t\t ");
+            
+            #line 23 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOEventGenerator.tt"
+ for(int i = 0 ; i < ValidTypes.Length ; i++)
+			{ 
+            
+            #line default
+            #line hidden
+            this.Write("\t\t\t\tpublic ");
             
             #line 25 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOEventGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ValidTypes[i]));
@@ -108,21 +108,22 @@ namespace SOPRO.Editor.CodeGenerators
             
             #line default
             #line hidden
-            this.Write(");\r\n\t");
+            this.Write(");\r\n\t\t");
             
             #line 26 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOEventGenerator.tt"
  } 
             
             #line default
             #line hidden
-            this.Write("\t#endif\r\n\t");
+            this.Write("\t\t#endif\r\n\t\t");
             
             #line 28 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOEventGenerator.tt"
  } 
+		
             
             #line default
             #line hidden
-            this.Write("\r\n        [SerializeField]\r\n        private readonly List<");
+            this.Write("        [SerializeField]\r\n        private readonly List<");
             
             #line 31 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOEventGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(SOEventListenerTypeName));

@@ -4,7 +4,7 @@
 string args = string.Empty;
 for(int x = 0; x < AllValidTypes.Length ; x++)
 {
-	args = args + "e.DEBUG_" + AllValidTypes[x] + "_" + x;
+	args = args + "obj.DEBUG_" + AllValidTypes[x] + "_" + x;
 	if(x != AllValidTypes.Length - 1)
 	{
 		args = args + " ,";
@@ -24,6 +24,7 @@ namespace <#= Namespace #>
     [CustomEditor(typeof(<#= SOEventTypeName #>))]
     public class <#= ClassName #> : UnityEditor.Editor
     {
+		private <#= SOEventTypeName #> obj;
         /// <summary>
         /// Method that modifies SOEvent inspector view
         /// </summary>
@@ -33,10 +34,13 @@ namespace <#= Namespace #>
 
             GUI.enabled = Application.isPlaying;
 
-            <#= SOEventTypeName #> e = target as <#= SOEventTypeName #>;
             if (GUILayout.Button("Raise"))
-                e.Raise(<#= args #>);
+                obj.Raise(<#= args #>);
         }
+		void OnEnable()
+		{
+			this.obj = target as <#= SOEventTypeName #>;
+		}
     }
 <# if(Namespace != null && Namespace.Length > 0)
 { #>
