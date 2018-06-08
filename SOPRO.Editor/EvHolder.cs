@@ -6,13 +6,13 @@ namespace SOPRO.Editor
     {
         public string FolderPath;
         public string EditorFolderPath;
-        public SOPROListenerGenMode ListenerMode;
+        public ListenerGenMode ListenerMode;
         public readonly string[] Types;
         public EvHolder(int typesLength)
         {
             FolderPath = string.Empty;
             EditorFolderPath = string.Empty;
-            ListenerMode = SOPROListenerGenMode.Default;
+            ListenerMode = ListenerGenMode.Default;
             Types = new string[typesLength];
             for (int i = 0; i < Types.Length; i++)
             {

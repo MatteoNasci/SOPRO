@@ -17,6 +17,15 @@ namespace <#= Namespace #>
     [Serializable]
     public class <#= ClassName #> : ScriptableObject
     {
+#if UNITY_EDITOR
+        /// <summary>
+        /// Description of the event, available only in UNITY_EDITOR
+        /// </summary>
+        [Multiline]
+		[SerializeField]
+        private string DEBUG_DeveloperDescription = "";
+#endif
+
 		<# if(ValidTypes.Length > 0)
 		{ #>
 		#if UNITY_EDITOR

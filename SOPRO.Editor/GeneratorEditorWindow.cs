@@ -25,7 +25,7 @@ namespace SOPRO.Editor
         public static readonly string DefaultFolderPath = Path.Combine("Scripts", "GeneratedCode");
 
         [SerializeField]
-        SOPROGeneratorType currentGenerationType = SOPROGeneratorType.None;
+        GeneratorType currentGenerationType = GeneratorType.None;
         [SerializeField]
         EvHolder evHolder = new EvHolder(EventTypesNumber);
         [SerializeField]
@@ -59,22 +59,22 @@ namespace SOPRO.Editor
                 GUILayout.FlexibleSpace();
             }
 
-            currentGenerationType = (SOPROGeneratorType)EditorGUILayout.EnumPopup("Generator type", currentGenerationType);
+            currentGenerationType = (GeneratorType)EditorGUILayout.EnumPopup("Generator type", currentGenerationType);
 
-            if (currentGenerationType == SOPROGeneratorType.None || !Enum.IsDefined(typeof(SOPROGeneratorType), currentGenerationType))
+            if (currentGenerationType == GeneratorType.None || !Enum.IsDefined(typeof(GeneratorType), currentGenerationType))
                 return;
 
             switch (currentGenerationType)
             {
-                case SOPROGeneratorType.None:
+                case GeneratorType.None:
                     break;
-                case SOPROGeneratorType.Containers:
+                case GeneratorType.Containers:
                     ShowContainer();
                     break;
-                case SOPROGeneratorType.Events:
+                case GeneratorType.Events:
                     ShowEvent();
                     break;
-                case SOPROGeneratorType.Variables:
+                case GeneratorType.Variables:
                     ShowVariable();
                     break;
                 default:
@@ -87,9 +87,9 @@ namespace SOPRO.Editor
             {
                 evHolder.Types[i] = EditorGUILayout.TextField("Type " + i + " name", evHolder.Types[i]);
             }
-            evHolder.ListenerMode = (SOPROListenerGenMode)EditorGUILayout.EnumPopup("Listener mode", evHolder.ListenerMode);
-            if (!Enum.IsDefined(typeof(SOPROListenerGenMode), evHolder.ListenerMode))
-                evHolder.ListenerMode = SOPROListenerGenMode.Default;
+            evHolder.ListenerMode = (ListenerGenMode)EditorGUILayout.EnumPopup("Listener mode", evHolder.ListenerMode);
+            if (!Enum.IsDefined(typeof(ListenerGenMode), evHolder.ListenerMode))
+                evHolder.ListenerMode = ListenerGenMode.Default;
 
             if (GUILayout.Button("Generate Code"))
             {
@@ -179,7 +179,7 @@ namespace SOPRO.Editor
             //else
             //    Debug.Log("Error occurred while attempting code generation from " + this + " , file " + fileName + " already exists");
         }
-        void GenerateEventCode(SOPROListenerGenMode listenerMode, string[] types, string nameSpace, string fullTargetFolderPath, string fullTargetEditorFolderPath)
+        void GenerateEventCode(ListenerGenMode listenerMode, string[] types, string nameSpace, string fullTargetFolderPath, string fullTargetEditorFolderPath)
         {
             if (types.Length != EventTypesNumber)
                 throw new ArgumentException("Internal error. Event generator requires " + EventTypesNumber + " number of types as input.");
@@ -189,12 +189,12 @@ namespace SOPRO.Editor
             string registerMethod = string.Empty;
             string unregisterMethod = string.Empty;
 
-            if (listenerMode == SOPROListenerGenMode.AwakeDestroy)
+            if (listenerMode == ListenerGenMode.AwakeDestroy)
             {
                 registerMethod = "protected virtual void Awake()";
                 unregisterMethod = "protected virtual void OnDestroy()";
             }
-            else if (listenerMode == SOPROListenerGenMode.OnEnableOnDisable)
+            else if (listenerMode == ListenerGenMode.OnEnableOnDisable)
             {
                 registerMethod = "protected virtual void OnEnable()";
                 unregisterMethod = "protected virtual void OnDisable()";

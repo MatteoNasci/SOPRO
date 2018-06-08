@@ -10,6 +10,15 @@ namespace SOPRO
     [Serializable]
     public class SOEvVoid : ScriptableObject
     {
+#if UNITY_EDITOR
+        /// <summary>
+        /// Description of the event, available only in UNITY_EDITOR
+        /// </summary>
+        [Multiline]
+		[SerializeField]
+        private string DEBUG_DeveloperDescription = "";
+#endif
+
 		        [SerializeField]
         private readonly List<SOEvVoidListener> listeners = new List<SOEvVoidListener>();
 

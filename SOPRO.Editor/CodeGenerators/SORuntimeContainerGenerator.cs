@@ -69,24 +69,37 @@ namespace SOPRO.Editor.CodeGenerators
             
             #line default
             #line hidden
-            this.Write(" : ScriptableObject\r\n    {\r\n        /// <summary>\r\n        /// List of elements s" +
-                    "tored\r\n        /// </summary>\r\n\t\t[NonSerialized]\r\n        public ");
+            this.Write(@" : ScriptableObject
+    {
+#if UNITY_EDITOR
+        /// <summary>
+        /// Description of the container, available only in UNITY_EDITOR
+        /// </summary>
+        [Multiline]
+		[SerializeField]
+        private string DEBUG_DeveloperDescription = """";
+#endif
+        /// <summary>
+        /// List of elements stored
+        /// </summary>
+		[NonSerialized]
+        public ");
             
-            #line 21 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SORuntimeContainerGenerator.tt"
+            #line 29 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SORuntimeContainerGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(FullContainerTypeName));
             
             #line default
             #line hidden
             this.Write(" Elements = new ");
             
-            #line 21 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SORuntimeContainerGenerator.tt"
+            #line 29 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SORuntimeContainerGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(FullContainerTypeNameInit));
             
             #line default
             #line hidden
             this.Write(";\r\n\t\t");
             
-            #line 22 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SORuntimeContainerGenerator.tt"
+            #line 30 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SORuntimeContainerGenerator.tt"
  if(GenerateIndexer)
 		{ 
             
@@ -96,7 +109,7 @@ namespace SOPRO.Editor.CodeGenerators
                     "/ </summary>\r\n        /// <param name=\"i\">index</param>\r\n        /// <returns>va" +
                     "lue stored</returns>\r\n        public ");
             
-            #line 29 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SORuntimeContainerGenerator.tt"
+            #line 37 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SORuntimeContainerGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(UnderlyingTypeName));
             
             #line default
@@ -104,14 +117,14 @@ namespace SOPRO.Editor.CodeGenerators
             this.Write(" this[int i]\r\n        {\r\n            get { return Elements[i]; }\r\n            set" +
                     " { Elements[i] = value; }\r\n        }\r\n\t\t");
             
-            #line 34 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SORuntimeContainerGenerator.tt"
+            #line 42 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SORuntimeContainerGenerator.tt"
  } 
             
             #line default
             #line hidden
             this.Write("    }\r\n");
             
-            #line 36 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SORuntimeContainerGenerator.tt"
+            #line 44 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SORuntimeContainerGenerator.tt"
  if(Namespace != null && Namespace.Length > 0)
 { 
             
@@ -119,7 +132,7 @@ namespace SOPRO.Editor.CodeGenerators
             #line hidden
             this.Write("}\r\n");
             
-            #line 39 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SORuntimeContainerGenerator.tt"
+            #line 47 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SORuntimeContainerGenerator.tt"
  } 
             
             #line default
@@ -127,7 +140,7 @@ namespace SOPRO.Editor.CodeGenerators
             return this.GenerationEnvironment.ToString();
         }
         
-        #line 40 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SORuntimeContainerGenerator.tt"
+        #line 48 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SORuntimeContainerGenerator.tt"
 
 public string Namespace { get; set; }
 public bool GenerateIndexer { get; set; }
