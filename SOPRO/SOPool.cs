@@ -31,7 +31,7 @@ namespace SOPRO
             toRecycle.SetActive(false);
         }
         /// <summary>
-        /// Recycles the given instance. No further action will be performed on the object
+        /// Recycles the given instance. The object will not be disabled
         /// </summary>
         /// <param name="toRecycle">object to recycle</param>
         public void DirectRecycle(GameObject toRecycle)
@@ -73,7 +73,7 @@ namespace SOPRO
             return res;
         }
         /// <summary>
-        /// Requests an element from the pool. No further action will be performed on the object
+        /// Requests an element from the pool. The object will not be enabled
         /// </summary>
         /// <returns>the requested element instance</returns>
         public GameObject DirectGet()
@@ -81,23 +81,65 @@ namespace SOPRO
             return elements.Count == 0 ? GameObject.Instantiate(Prefab) : elements.Dequeue();
         }
         /// <summary>
-        /// Requests an element from the pool. No further action will be performed on the object
+        /// Requests an element from the pool. The object will not be enabled
         /// </summary>
-        /// <param name="parent">transform to use as the requested element parent. Used only on instantiated elements</param>
+        /// <param name="parent">transform to use as the requested element parent.</param>
+        /// <param name="hasBeenParented">true if obj was instantiated and parent setted, false otherwise</param>
         /// <returns>the requested element instance</returns>
-        public GameObject DirectGet(Transform parent)
+        public GameObject DirectGet(Transform parent, out bool hasBeenParented)
         {
-            return elements.Count == 0 ? GameObject.Instantiate(Prefab, parent) : elements.Dequeue();
+            if (elements.Count == 0)
+            {
+                hasBeenParented = true;
+                return GameObject.Instantiate(Prefab, parent);
+            }
+            else
+            {
+                hasBeenParented = false;
+                return elements.Dequeue();
+            }
+        }
+        /// <summary>
+        /// Requests an element from the pool. The object will not be enabled
+        /// </summary>
+        /// <param name="parent">transform to use as the requested element parent.</param>
+        /// <param name="position">object position</param>
+        /// <param name="rotation">object rotation</param>
+        /// <param name="hasBeenParentedAndPositioned">true if obj was instantiated and parent and pos/rot have been setted, false otherwise</param>
+        /// <returns>the requested element instance</returns>
+        public GameObject DirectGet(Transform parent, Vector3 position, Quaternion rotation, out bool hasBeenParentedAndPositioned)
+        {
+            if (elements.Count == 0)
+            {
+                hasBeenParentedAndPositioned = true;
+                return GameObject.Instantiate(Prefab, position, rotation, parent);
+            }
+            else
+            {
+                hasBeenParentedAndPositioned = false;
+                return elements.Dequeue();
+            }
         }
         /// <summary>
         /// Requests an element from the pool.
         /// </summary>
-        /// <param name="parent">transform to use as the requested element parent. Used only on instantiated elements</param>
+        /// <param name="parent">transform to use as the requested element parent.</param>
         /// <param name="onGet">action called on element before activation</param>
+        /// <param name="parentAlways">false to set parent only when instantiating obj, true to set parent always</param>
         /// <returns>the requested element instance</returns>
-        public GameObject Get(Transform parent, Action<GameObject> onGet)
+        public GameObject Get(Transform parent, Action<GameObject> onGet, bool parentAlways = false)
         {
-            GameObject res = elements.Count == 0 ? GameObject.Instantiate(Prefab, parent) : elements.Dequeue();
+            GameObject res;
+            if (elements.Count == 0)
+            {
+                res = GameObject.Instantiate(Prefab, parent);
+            }
+            else
+            {
+                res = elements.Dequeue();
+                if (parentAlways)
+                    res.transform.parent = parent;
+            }
             onGet(res);
             res.SetActive(true);
             return res;
@@ -105,23 +147,35 @@ namespace SOPRO
         /// <summary>
         /// Requests an element from the pool.
         /// </summary>
-        /// <param name="parent">transform to use as the requested element parent. Used only on instantiated elements</param>
+        /// <param name="parent">transform to use as the requested element parent.</param>
+        /// <param name="parentAlways">false to set parent only when instantiating obj, true to set parent always</param>
         /// <returns>the requested element instance</returns>
-        public GameObject Get(Transform parent)
+        public GameObject Get(Transform parent, bool parentAlways = false)
         {
-            GameObject res = elements.Count == 0 ? GameObject.Instantiate(Prefab, parent) : elements.Dequeue();
+            GameObject res;
+            if (elements.Count == 0)
+            {
+                res = GameObject.Instantiate(Prefab, parent);
+            }
+            else
+            {
+                res = elements.Dequeue();
+                if (parentAlways)
+                    res.transform.parent = parent;
+            }
             res.SetActive(true);
             return res;
         }
         /// <summary>
         /// Requests an element from the pool.
         /// </summary>
-        /// <param name="parent">transform to use as the requested element parent. Used only on instantiated elements</param>
+        /// <param name="parent">transform to use as the requested element parent.</param>
         /// <param name="position">object position</param>
         /// <param name="rotation">object rotation</param>
         /// <param name="onGet">action called on element before activation</param>
+        /// <param name="parentAlways">false to set parent only when instantiating obj, true to set parent always</param>
         /// <returns>the requested element instance</returns>
-        public GameObject Get(Transform parent, Vector3 position, Quaternion rotation, Action<GameObject> onGet)
+        public GameObject Get(Transform parent, Vector3 position, Quaternion rotation, Action<GameObject> onGet, bool parentAlways = false)
         {
             GameObject res = null;
             if (elements.Count == 0)
@@ -132,6 +186,8 @@ namespace SOPRO
             {
                 res = elements.Dequeue();
                 res.transform.SetPositionAndRotation(position, rotation);
+                if (parentAlways)
+                    res.transform.parent = parent;
             }
             onGet(res);
             res.SetActive(true);
@@ -140,11 +196,12 @@ namespace SOPRO
         /// <summary>
         /// Requests an element from the pool.
         /// </summary>
-        /// <param name="parent">transform to use as the requested element parent. Used only on instantiated elements</param>
+        /// <param name="parent">transform to use as the requested element parent.</param>
         /// <param name="position">object position</param>
         /// <param name="rotation">object rotation</param>
+        /// <param name="parentAlways">false to set parent only when instantiating obj, true to set parent always</param>
         /// <returns>the requested element instance</returns>
-        public GameObject Get(Transform parent, Vector3 position, Quaternion rotation)
+        public GameObject Get(Transform parent, Vector3 position, Quaternion rotation, bool parentAlways = false)
         {
             GameObject res = null;
             if (elements.Count == 0)
@@ -155,6 +212,8 @@ namespace SOPRO
             {
                 res = elements.Dequeue();
                 res.transform.SetPositionAndRotation(position, rotation);
+                if (parentAlways)
+                    res.transform.parent = parent;
             }
             res.SetActive(true);
             return res;
@@ -173,7 +232,7 @@ namespace SOPRO
             }
         }
         /// <summary>
-        /// Clears the pool invoking an action on each element
+        /// Clears the pool
         /// </summary>
         public void Clear()
         {
@@ -187,7 +246,7 @@ namespace SOPRO
         /// Resizes the pool to the given length, invoking an action on each destroyed element (if there are any) and each created element (if there are any)
         /// </summary>
         /// <param name="onDestroy">action invoked on each destroyed element in the pool</param>
-        /// <param name="parent">transform to use as the requested element parent. Used only on instantiated elements</param>
+        /// <param name="parent">transform to use as the requested element parent.</param>
         /// <param name="position">object position</param>
         /// <param name="rotation">object rotation</param>
         /// <param name="onRecycle">action called on element after deactivation</param>
