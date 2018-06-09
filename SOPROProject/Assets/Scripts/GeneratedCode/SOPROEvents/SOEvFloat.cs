@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using SOPRO;
 namespace SOPRO 
 {
     /// <summary>
@@ -8,7 +9,7 @@ namespace SOPRO
     /// </summary>
     [CreateAssetMenu(fileName = "Event", menuName = "SOPRO/Events/Float")]
     [Serializable]
-    public class SOEvFloat : ScriptableObject
+    public class SOEvFloat : BaseSOEvFloat
     {
 #if UNITY_EDITOR
         /// <summary>
@@ -20,7 +21,10 @@ namespace SOPRO
 #endif
 
 				#if UNITY_EDITOR
-		 				public float DEBUG_float_0 = default(float);
+		 				/// <summary>
+				/// Debug field for inspector view, available only in UNITY_EDITOR
+				/// </summary>
+				public float DEBUG_float_0 = default(float);
 				#endif
 		        [SerializeField]
         private readonly List<SOEvFloatListener> listeners = new List<SOEvFloatListener>();
@@ -28,7 +32,7 @@ namespace SOPRO
         /// <summary>
         /// Invokes all listeners of this event
         /// </summary>
-        public void Raise(float Value0)
+        public override void Raise(float Value0)
         {
             for (int i = listeners.Count - 1; i >= 0; i--)
                 listeners[i].OnEventRaised(Value0);

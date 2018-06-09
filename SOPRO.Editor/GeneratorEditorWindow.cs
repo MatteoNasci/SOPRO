@@ -83,6 +83,7 @@ namespace SOPRO.Editor
         }
         void ShowEvent()
         {
+            evHolder.EventGenMode = (EventGenerationMode)EditorGUILayout.EnumFlagsField("Event Generation Mode", evHolder.EventGenMode);
             for (int i = 0; i < evHolder.Types.Length; i++)
             {
                 evHolder.Types[i] = EditorGUILayout.TextField("Type " + i + " name", evHolder.Types[i]);
@@ -93,7 +94,7 @@ namespace SOPRO.Editor
 
             if (GUILayout.Button("Generate Code"))
             {
-                GenerateEventCode(evHolder.ListenerMode, evHolder.Types, DefaultNamespace, evHolder.FolderPath, evHolder.EditorFolderPath);
+                GenerateEventCode(evHolder.ListenerMode, evHolder.EventGenMode, evHolder.Types, DefaultNamespace, evHolder.FolderPath, evHolder.EditorFolderPath);
                 AssetDatabase.Refresh();
             }
         }
@@ -170,17 +171,20 @@ namespace SOPRO.Editor
             if (!File.Exists(fileName))
                 File.WriteAllText(fileName, contCode);
             else
-                Debug.Log("Error occurred while attempting code generation from " + this + " , file " + fileName + " already exists");
+                Debug.LogWarning("Error occurred while attempting code generation from " + this + " , file " + fileName + " already exists");
 
             //fileName = Path.Combine(FullTargetFolderPath, Path.ChangeExtension(ContRunClassName, ".cs"));
 
             //if (!File.Exists(fileName))
             //    File.WriteAllText(fileName, contRunCode);
             //else
-            //    Debug.Log("Error occurred while attempting code generation from " + this + " , file " + fileName + " already exists");
+            //    Debug.LogWarning("Error occurred while attempting code generation from " + this + " , file " + fileName + " already exists");
         }
-        void GenerateEventCode(ListenerGenMode listenerMode, string[] types, string nameSpace, string fullTargetFolderPath, string fullTargetEditorFolderPath)
+        void GenerateEventCode(ListenerGenMode listenerMode, EventGenerationMode eventGenMode, string[] types, string nameSpace, string fullTargetFolderPath, string fullTargetEditorFolderPath)
         {
+            if (eventGenMode == EventGenerationMode.None)
+                return;
+
             if (types.Length != EventTypesNumber)
                 throw new ArgumentException("Internal error. Event generator requires " + EventTypesNumber + " number of types as input.");
 
@@ -245,11 +249,16 @@ namespace SOPRO.Editor
                 }
                 genericTypes = genericTypes + ">";
             }
+            string baseEventClassName = "BaseSOEv" + allTypes;
             string eventAssetFileName = "\"Event\"";
+            string basEventAssetFileName = "\"BasicEvent\"";
             string eventAssetMenuName = "\"" + "SOPRO/Events/" + allTypes + "\"";
+            string basEventAssetMenuName = "\"" + "SOPRO/BasicEvents/" + allTypes + "\"";
             string eventClassName = "SOEv" + allTypes;
+            string basicEventClassName = "SOBasicEv" + allTypes;
             string wrapperClassName = "UnEv" + allTypes;
             string editorClassName = eventClassName + "Drawer";
+            string basEditorClassName = basicEventClassName + "Drawer";
             string listenerClassName = eventClassName + "Listener";
             string unityEventClassName = "UnityEvent" + genericTypes;
 
@@ -257,6 +266,9 @@ namespace SOPRO.Editor
             SOEventListenerGenerator listenerGenerator = new SOEventListenerGenerator();
             UnityEventWrapperGenerator wrapperGenerator = new UnityEventWrapperGenerator();
             SOEventEditorGenerator editorGenerator = new SOEventEditorGenerator();
+            SOEventEditorGenerator basicEditorGenerator = new SOEventEditorGenerator();
+            SOBasicEventGenerator basEventGenerator = new SOBasicEventGenerator();
+            BaseSOEventGenerator baseEvClassGenerator = new BaseSOEventGenerator();
 
             List<string> validTypes = new List<string>();
             for (int i = 0; i < types.Length; i++)
@@ -287,50 +299,101 @@ namespace SOPRO.Editor
             eventGenerator.Namespace = nameSpace;
             eventGenerator.SOEventListenerTypeName = listenerClassName;
             eventGenerator.ValidTypes = validTypes.ToArray();
+            eventGenerator.BaseClassName = baseEventClassName;
+
+            basEventGenerator.AssetFileName = basEventAssetFileName;
+            basEventGenerator.AssetMenuName = basEventAssetMenuName;
+            basEventGenerator.ClassName = basicEventClassName;
+            basEventGenerator.GenericArguments = arguments;
+            basEventGenerator.GenericArgumentsWithTypes = argumentsWithTypes;
+            basEventGenerator.Namespace = nameSpace;
+            basEventGenerator.ValidTypes = validTypes.ToArray();
+            basEventGenerator.BaseClassName = baseEventClassName;
 
             editorGenerator.ClassName = editorClassName;
             editorGenerator.Namespace = (nameSpace == null || nameSpace.Length == 0) ? nameSpace : nameSpace + ".Editor";
             editorGenerator.SOEventTypeName = eventClassName;
             editorGenerator.AllValidTypes = validTypes.ToArray();
 
+            basicEditorGenerator.ClassName = basEditorClassName;
+            basicEditorGenerator.Namespace = (nameSpace == null || nameSpace.Length == 0) ? nameSpace : nameSpace + ".Editor";
+            basicEditorGenerator.SOEventTypeName = basicEventClassName;
+            basicEditorGenerator.AllValidTypes = validTypes.ToArray();
+
+            baseEvClassGenerator.Namespace = nameSpace;
+            baseEvClassGenerator.ClassName = baseEventClassName;
+            baseEvClassGenerator.GenericArgumentsWithTypes = argumentsWithTypes;
+
             string eventCode = eventGenerator.TransformText();
+            string basEventCode = basEventGenerator.TransformText();
             string listenerCode = listenerGenerator.TransformText();
             string wrapperCode = wrapperGenerator.TransformText();
             string editorCode = editorGenerator.TransformText();
+            string basEditorCode = basicEditorGenerator.TransformText();
+            string baseEventCode = baseEvClassGenerator.TransformText();
 
             if (!Directory.Exists(fullTargetFolderPath))
                 Directory.CreateDirectory(fullTargetFolderPath);
 
-            string fileName = Path.Combine(fullTargetFolderPath, Path.ChangeExtension(eventClassName, ".cs"));
-
-            if (!File.Exists(fileName))
-                File.WriteAllText(fileName, eventCode);
-            else
-                Debug.Log("Error occurred while attempting code generation from " + this + " , file " + fileName + " already exists");
-
-            fileName = Path.Combine(fullTargetFolderPath, Path.ChangeExtension(listenerClassName, ".cs"));
-
-            if (!File.Exists(fileName))
-                File.WriteAllText(fileName, listenerCode);
-            else
-                Debug.Log("Error occurred while attempting code generation from " + this + " , file " + fileName + " already exists");
-
-            fileName = Path.Combine(fullTargetFolderPath, Path.ChangeExtension(wrapperClassName, ".cs"));
-
-            if (!File.Exists(fileName))
-                File.WriteAllText(fileName, wrapperCode);
-            else
-                Debug.Log("Error occurred while attempting code generation from " + this + " , file " + fileName + " already exists");
-
             if (!Directory.Exists(fullTargetEditorFolderPath))
                 Directory.CreateDirectory(fullTargetEditorFolderPath);
 
-            fileName = Path.Combine(fullTargetEditorFolderPath, Path.ChangeExtension(editorClassName, ".cs"));
+            //generate base class for events
+            string fileName = Path.Combine(fullTargetFolderPath, Path.ChangeExtension(baseEventClassName, ".cs"));
 
             if (!File.Exists(fileName))
-                File.WriteAllText(fileName, editorCode);
+                File.WriteAllText(fileName, baseEventCode);
             else
-                Debug.Log("Error occurred while attempting code generation from " + this + " , file " + fileName + " already exists");
+                Debug.LogWarning("Error occurred while attempting code generation from " + this + " , file " + fileName + " already exists");
+
+            //generate basic event code
+            if ((eventGenMode & EventGenerationMode.BasicEvent) != 0)
+            {
+                fileName = Path.Combine(fullTargetFolderPath, Path.ChangeExtension(basicEventClassName, ".cs"));
+
+                if (!File.Exists(fileName))
+                    File.WriteAllText(fileName, basEventCode);
+                else
+                    Debug.LogWarning("Error occurred while attempting code generation from " + this + " , file " + fileName + " already exists");
+
+                fileName = Path.Combine(fullTargetEditorFolderPath, Path.ChangeExtension(basEditorClassName, ".cs"));
+
+                if (!File.Exists(fileName))
+                    File.WriteAllText(fileName, basEditorCode);
+                else
+                    Debug.LogWarning("Error occurred while attempting code generation from " + this + " , file " + fileName + " already exists");
+            }
+            //generate unity event code
+            if ((eventGenMode & EventGenerationMode.UnityEvent) != 0)
+            {
+                fileName = Path.Combine(fullTargetFolderPath, Path.ChangeExtension(eventClassName, ".cs"));
+
+                if (!File.Exists(fileName))
+                    File.WriteAllText(fileName, eventCode);
+                else
+                    Debug.LogWarning("Error occurred while attempting code generation from " + this + " , file " + fileName + " already exists");
+
+                fileName = Path.Combine(fullTargetFolderPath, Path.ChangeExtension(listenerClassName, ".cs"));
+
+                if (!File.Exists(fileName))
+                    File.WriteAllText(fileName, listenerCode);
+                else
+                    Debug.LogWarning("Error occurred while attempting code generation from " + this + " , file " + fileName + " already exists");
+
+                fileName = Path.Combine(fullTargetFolderPath, Path.ChangeExtension(wrapperClassName, ".cs"));
+
+                if (!File.Exists(fileName))
+                    File.WriteAllText(fileName, wrapperCode);
+                else
+                    Debug.LogWarning("Error occurred while attempting code generation from " + this + " , file " + fileName + " already exists");
+
+                fileName = Path.Combine(fullTargetEditorFolderPath, Path.ChangeExtension(editorClassName, ".cs"));
+
+                if (!File.Exists(fileName))
+                    File.WriteAllText(fileName, editorCode);
+                else
+                    Debug.LogWarning("Error occurred while attempting code generation from " + this + " , file " + fileName + " already exists");
+            }
         }
         void GenerateVariableCode(string type, string nameSpace, string fullTargetFolderPath, string fullTargetEditorFolderPath)
         {
@@ -376,14 +439,14 @@ namespace SOPRO.Editor
             if (!File.Exists(fileName))
                 File.WriteAllText(fileName, varCode);
             else
-                Debug.Log("Error occurred while attempting code generation from " + this + " , file " + fileName + " already exists");
+                Debug.LogWarning("Error occurred while attempting code generation from " + this + " , file " + fileName + " already exists");
 
             fileName = Path.Combine(fullTargetFolderPath, Path.ChangeExtension(refClassName, ".cs"));
 
             if (!File.Exists(fileName))
                 File.WriteAllText(fileName, refCode);
             else
-                Debug.Log("Error occurred while attempting code generation from " + this + " , file " + fileName + " already exists");
+                Debug.LogWarning("Error occurred while attempting code generation from " + this + " , file " + fileName + " already exists");
 
             if (!Directory.Exists(fullTargetEditorFolderPath))
                 Directory.CreateDirectory(fullTargetEditorFolderPath);
@@ -393,7 +456,7 @@ namespace SOPRO.Editor
             if (!File.Exists(fileName))
                 File.WriteAllText(fileName, editorCode);
             else
-                Debug.Log("Error occurred while attempting code generation from " + this + " , file " + fileName + " already exists");
+                Debug.LogWarning("Error occurred while attempting code generation from " + this + " , file " + fileName + " already exists");
         }
     }
 }
