@@ -76,14 +76,15 @@ namespace SOPRO.Editor.CodeGenerators
         /// Description of the variable, available only in UNITY_EDITOR
         /// </summary>
         [Multiline]
-        public string DEBUG_DeveloperDescription = """";
+		[SerializeField]
+        private string DEBUG_DeveloperDescription = """";
 #endif
 		/// <summary>
         /// Value stored in the variable
         /// </summary>
         public ");
             
-            #line 25 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOVariableGenerator.tt"
+            #line 26 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOVariableGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Type));
             
             #line default
@@ -92,7 +93,7 @@ namespace SOPRO.Editor.CodeGenerators
                     "/// </summary>\r\n        /// <param name=\"value\">new value</param>\r\n        publi" +
                     "c void SetValue(");
             
-            #line 31 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOVariableGenerator.tt"
+            #line 32 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOVariableGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Type));
             
             #line default
@@ -101,7 +102,7 @@ namespace SOPRO.Editor.CodeGenerators
                     "ary>\r\n        /// Sets value to given value\r\n        /// </summary>\r\n        ///" +
                     " <param name=\"value\">new value</param>\r\n        public void SetValue(");
             
-            #line 39 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOVariableGenerator.tt"
+            #line 40 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOVariableGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ClassName));
             
             #line default
@@ -116,21 +117,21 @@ namespace SOPRO.Editor.CodeGenerators
         /// <param name=""variable"">variable to convert</param>
         public static implicit operator ");
             
-            #line 47 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOVariableGenerator.tt"
+            #line 48 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOVariableGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Type));
             
             #line default
             #line hidden
             this.Write("(");
             
-            #line 47 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOVariableGenerator.tt"
+            #line 48 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOVariableGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ClassName));
             
             #line default
             #line hidden
             this.Write(" variable)\r\n        {\r\n            return variable.Value;\r\n        }\r\n    }\r\n");
             
-            #line 52 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOVariableGenerator.tt"
+            #line 53 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOVariableGenerator.tt"
  if(Namespace != null && Namespace.Length > 0)
 { 
             
@@ -138,7 +139,7 @@ namespace SOPRO.Editor.CodeGenerators
             #line hidden
             this.Write("}\r\n");
             
-            #line 55 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOVariableGenerator.tt"
+            #line 56 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOVariableGenerator.tt"
  } 
             
             #line default
@@ -146,7 +147,7 @@ namespace SOPRO.Editor.CodeGenerators
             return this.GenerationEnvironment.ToString();
         }
         
-        #line 56 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOVariableGenerator.tt"
+        #line 57 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOVariableGenerator.tt"
 
 public string AssetFileName { get; set; }
 public string AssetMenuName { get; set; }

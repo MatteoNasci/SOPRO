@@ -3,6 +3,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using SOPRO;
 <# if(Namespace != null && Namespace.Length > 0)
 {#>
 namespace <#= Namespace #> 
@@ -15,13 +16,25 @@ namespace <#= Namespace #>
     /// </summary>
     [CreateAssetMenu(fileName = <#= AssetFileName #>, menuName = <#= AssetMenuName #>)]
     [Serializable]
-    public class <#= ClassName #> : ScriptableObject
+    public class <#= ClassName #> : <#= BaseClassName #>
     {
+#if UNITY_EDITOR
+        /// <summary>
+        /// Description of the event, available only in UNITY_EDITOR
+        /// </summary>
+        [Multiline]
+		[SerializeField]
+        private string DEBUG_DeveloperDescription = "";
+#endif
+
 		<# if(ValidTypes.Length > 0)
 		{ #>
 		#if UNITY_EDITOR
 		 <# for(int i = 0 ; i < ValidTypes.Length ; i++)
 			{ #>
+				/// <summary>
+				/// Debug field for inspector view, available only in UNITY_EDITOR
+				/// </summary>
 				public <#= ValidTypes[i] #> <#= "DEBUG_" + ValidTypes[i] + "_" + i #> = default(<#= ValidTypes[i] #>);
 		<# } #>
 		#endif
@@ -33,7 +46,7 @@ namespace <#= Namespace #>
         /// <summary>
         /// Invokes all listeners of this event
         /// </summary>
-        public void Raise(<#= GenericArgumentsWithTypes #>)
+        public override void Raise(<#= GenericArgumentsWithTypes #>)
         {
             for (int i = listeners.Count - 1; i >= 0; i--)
                 listeners[i].OnEventRaised(<#= GenericArguments #>);
@@ -69,5 +82,6 @@ public string AssetMenuName { get; set; }
 public string SOEventListenerTypeName { get; set; }
 public string GenericArgumentsWithTypes { get; set; }
 public string GenericArguments { get; set; }
+public string BaseClassName { get; set; }
 public string[] ValidTypes { get; set; }
 #>

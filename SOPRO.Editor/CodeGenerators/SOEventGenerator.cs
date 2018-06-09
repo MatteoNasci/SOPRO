@@ -25,9 +25,10 @@ namespace SOPRO.Editor.CodeGenerators
         /// </summary>
         public virtual string TransformText()
         {
-            this.Write("using System.Collections.Generic;\r\nusing UnityEngine;\r\nusing System;\r\n");
+            this.Write("using System.Collections.Generic;\r\nusing UnityEngine;\r\nusing System;\r\nusing SOPRO" +
+                    ";\r\n");
             
-            #line 6 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOEventGenerator.tt"
+            #line 7 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOEventGenerator.tt"
  if(Namespace != null && Namespace.Length > 0)
 {
             
@@ -35,14 +36,14 @@ namespace SOPRO.Editor.CodeGenerators
             #line hidden
             this.Write("namespace ");
             
-            #line 8 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOEventGenerator.tt"
+            #line 9 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOEventGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(Namespace));
             
             #line default
             #line hidden
             this.Write(" \r\n{\r\n");
             
-            #line 10 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOEventGenerator.tt"
+            #line 11 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOEventGenerator.tt"
 
 }
 
@@ -52,28 +53,38 @@ namespace SOPRO.Editor.CodeGenerators
             this.Write("    /// <summary>\r\n    /// Scriptable Object event\r\n    /// </summary>\r\n    [Crea" +
                     "teAssetMenu(fileName = ");
             
-            #line 16 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOEventGenerator.tt"
+            #line 17 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOEventGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(AssetFileName));
             
             #line default
             #line hidden
             this.Write(", menuName = ");
             
-            #line 16 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOEventGenerator.tt"
+            #line 17 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOEventGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(AssetMenuName));
             
             #line default
             #line hidden
             this.Write(")]\r\n    [Serializable]\r\n    public class ");
             
-            #line 18 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOEventGenerator.tt"
+            #line 19 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOEventGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ClassName));
             
             #line default
             #line hidden
-            this.Write(" : ScriptableObject\r\n    {\r\n\t\t");
+            this.Write(" : ");
             
-            #line 20 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOEventGenerator.tt"
+            #line 19 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOEventGenerator.tt"
+            this.Write(this.ToStringHelper.ToStringWithCulture(BaseClassName));
+            
+            #line default
+            #line hidden
+            this.Write("\r\n    {\r\n#if UNITY_EDITOR\r\n        /// <summary>\r\n        /// Description of the " +
+                    "event, available only in UNITY_EDITOR\r\n        /// </summary>\r\n        [Multilin" +
+                    "e]\r\n\t\t[SerializeField]\r\n        private string DEBUG_DeveloperDescription = \"\";\r" +
+                    "\n#endif\r\n\r\n\t\t");
+            
+            #line 30 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOEventGenerator.tt"
  if(ValidTypes.Length > 0)
 		{ 
             
@@ -81,43 +92,44 @@ namespace SOPRO.Editor.CodeGenerators
             #line hidden
             this.Write("\t\t#if UNITY_EDITOR\r\n\t\t ");
             
-            #line 23 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOEventGenerator.tt"
+            #line 33 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOEventGenerator.tt"
  for(int i = 0 ; i < ValidTypes.Length ; i++)
 			{ 
             
             #line default
             #line hidden
-            this.Write("\t\t\t\tpublic ");
+            this.Write("\t\t\t\t/// <summary>\r\n\t\t\t\t/// Debug field for inspector view, available only in UNIT" +
+                    "Y_EDITOR\r\n\t\t\t\t/// </summary>\r\n\t\t\t\tpublic ");
             
-            #line 25 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOEventGenerator.tt"
+            #line 38 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOEventGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ValidTypes[i]));
             
             #line default
             #line hidden
             this.Write(" ");
             
-            #line 25 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOEventGenerator.tt"
+            #line 38 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOEventGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture("DEBUG_" + ValidTypes[i] + "_" + i));
             
             #line default
             #line hidden
             this.Write(" = default(");
             
-            #line 25 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOEventGenerator.tt"
+            #line 38 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOEventGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(ValidTypes[i]));
             
             #line default
             #line hidden
             this.Write(");\r\n\t\t");
             
-            #line 26 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOEventGenerator.tt"
+            #line 39 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOEventGenerator.tt"
  } 
             
             #line default
             #line hidden
             this.Write("\t\t#endif\r\n\t\t");
             
-            #line 28 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOEventGenerator.tt"
+            #line 41 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOEventGenerator.tt"
  } 
 		
             
@@ -125,22 +137,22 @@ namespace SOPRO.Editor.CodeGenerators
             #line hidden
             this.Write("        [SerializeField]\r\n        private readonly List<");
             
-            #line 31 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOEventGenerator.tt"
+            #line 44 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOEventGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(SOEventListenerTypeName));
             
             #line default
             #line hidden
             this.Write("> listeners = new List<");
             
-            #line 31 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOEventGenerator.tt"
+            #line 44 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOEventGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(SOEventListenerTypeName));
             
             #line default
             #line hidden
             this.Write(">();\r\n\r\n        /// <summary>\r\n        /// Invokes all listeners of this event\r\n " +
-                    "       /// </summary>\r\n        public void Raise(");
+                    "       /// </summary>\r\n        public override void Raise(");
             
-            #line 36 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOEventGenerator.tt"
+            #line 49 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOEventGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(GenericArgumentsWithTypes));
             
             #line default
@@ -148,7 +160,7 @@ namespace SOPRO.Editor.CodeGenerators
             this.Write(")\r\n        {\r\n            for (int i = listeners.Count - 1; i >= 0; i--)\r\n       " +
                     "         listeners[i].OnEventRaised(");
             
-            #line 39 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOEventGenerator.tt"
+            #line 52 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOEventGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(GenericArguments));
             
             #line default
@@ -157,7 +169,7 @@ namespace SOPRO.Editor.CodeGenerators
                     "     /// </summary>\r\n        /// <param name=\"listener\">listener to add</param>\r" +
                     "\n        internal void AddListener(");
             
-            #line 45 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOEventGenerator.tt"
+            #line 58 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOEventGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(SOEventListenerTypeName));
             
             #line default
@@ -172,7 +184,7 @@ namespace SOPRO.Editor.CodeGenerators
         /// <param name=""listener"">listener to remove</param>
         internal void RemoveListener(");
             
-            #line 53 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOEventGenerator.tt"
+            #line 66 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOEventGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(SOEventListenerTypeName));
             
             #line default
@@ -180,7 +192,7 @@ namespace SOPRO.Editor.CodeGenerators
             this.Write(" listener)\r\n        {\r\n            listeners.Remove(listener);\r\n        }\r\n    }\r" +
                     "\n");
             
-            #line 58 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOEventGenerator.tt"
+            #line 71 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOEventGenerator.tt"
  if(Namespace != null && Namespace.Length > 0)
 {
             
@@ -188,7 +200,7 @@ namespace SOPRO.Editor.CodeGenerators
             #line hidden
             this.Write("}\r\n");
             
-            #line 61 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOEventGenerator.tt"
+            #line 74 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOEventGenerator.tt"
 
 }
 
@@ -198,7 +210,7 @@ namespace SOPRO.Editor.CodeGenerators
             return this.GenerationEnvironment.ToString();
         }
         
-        #line 64 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOEventGenerator.tt"
+        #line 77 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOEventGenerator.tt"
 
 public string Namespace { get; set; }
 public string ClassName { get; set; }
@@ -207,6 +219,7 @@ public string AssetMenuName { get; set; }
 public string SOEventListenerTypeName { get; set; }
 public string GenericArgumentsWithTypes { get; set; }
 public string GenericArguments { get; set; }
+public string BaseClassName { get; set; }
 public string[] ValidTypes { get; set; }
 
         
