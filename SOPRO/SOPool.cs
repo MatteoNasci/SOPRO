@@ -17,7 +17,13 @@ namespace SOPRO
         /// <summary>
         /// Prefab instance used by this pool
         /// </summary>
+        [Tooltip("Pool prefab instance")]
         public GameObject Prefab;
+        /// <summary>
+        /// True if you want the pool to check whenever pooled objects have been destroyed for a scene change or for other reasons
+        /// </summary>
+        [Tooltip("True checks whenever pooled objects have been destroyed for a scene change or for other reasons")]
+        public bool PersistentPoolInScenes = true;
 
         private Queue<GameObject> elements = new Queue<GameObject>();
 
@@ -57,7 +63,7 @@ namespace SOPRO
         /// <returns>the requested element instance</returns>
         public GameObject Get(Action<GameObject> onGet)
         {
-            GameObject res = elements.Count == 0 ? GameObject.Instantiate(Prefab) : elements.Dequeue();
+            GameObject res = elements.Count == 0 ? GameObject.Instantiate(Prefab) : (PersistentPoolInScenes ? GetRemoveNullRefs() : elements.Dequeue());
             onGet(res);
             res.SetActive(true);
             return res;
@@ -68,7 +74,7 @@ namespace SOPRO
         /// <returns>the requested element instance</returns>
         public GameObject Get()
         {
-            GameObject res = elements.Count == 0 ? GameObject.Instantiate(Prefab) : elements.Dequeue();
+            GameObject res = elements.Count == 0 ? GameObject.Instantiate(Prefab) : (PersistentPoolInScenes ? GetRemoveNullRefs() : elements.Dequeue());
             res.SetActive(true);
             return res;
         }
@@ -78,7 +84,7 @@ namespace SOPRO
         /// <returns>the requested element instance</returns>
         public GameObject DirectGet()
         {
-            return elements.Count == 0 ? GameObject.Instantiate(Prefab) : elements.Dequeue();
+            return elements.Count == 0 ? GameObject.Instantiate(Prefab) : (PersistentPoolInScenes ? GetRemoveNullRefs() : elements.Dequeue());
         }
         /// <summary>
         /// Requests an element from the pool. The object will not be enabled
@@ -95,8 +101,8 @@ namespace SOPRO
             }
             else
             {
-                hasBeenParented = false;
-                return elements.Dequeue();
+                hasBeenParented = PersistentPoolInScenes;
+                return PersistentPoolInScenes ? GetRemoveNullRefs(parent) : elements.Dequeue();
             }
         }
         /// <summary>
@@ -116,8 +122,8 @@ namespace SOPRO
             }
             else
             {
-                hasBeenParentedAndPositioned = false;
-                return elements.Dequeue();
+                hasBeenParentedAndPositioned = PersistentPoolInScenes;
+                return PersistentPoolInScenes ? GetRemoveNullRefs(parent, position, rotation) : elements.Dequeue();
             }
         }
         /// <summary>
@@ -136,8 +142,8 @@ namespace SOPRO
             }
             else
             {
-                res = elements.Dequeue();
-                if (parentAlways)
+                res = PersistentPoolInScenes ? GetRemoveNullRefs(parent) : elements.Dequeue();
+                if (!PersistentPoolInScenes && parentAlways)
                     res.transform.parent = parent;
             }
             onGet(res);
@@ -159,8 +165,8 @@ namespace SOPRO
             }
             else
             {
-                res = elements.Dequeue();
-                if (parentAlways)
+                res = PersistentPoolInScenes ? GetRemoveNullRefs(parent) : elements.Dequeue();
+                if (!PersistentPoolInScenes && parentAlways)
                     res.transform.parent = parent;
             }
             res.SetActive(true);
@@ -184,10 +190,13 @@ namespace SOPRO
             }
             else
             {
-                res = elements.Dequeue();
-                res.transform.SetPositionAndRotation(position, rotation);
-                if (parentAlways)
-                    res.transform.parent = parent;
+                res = PersistentPoolInScenes ? GetRemoveNullRefs(parent, position, rotation) : elements.Dequeue();
+                if (!PersistentPoolInScenes)
+                {
+                    res.transform.SetPositionAndRotation(position, rotation);
+                    if (parentAlways)
+                        res.transform.parent = parent;
+                }
             }
             onGet(res);
             res.SetActive(true);
@@ -210,10 +219,13 @@ namespace SOPRO
             }
             else
             {
-                res = elements.Dequeue();
-                res.transform.SetPositionAndRotation(position, rotation);
-                if (parentAlways)
-                    res.transform.parent = parent;
+                res = PersistentPoolInScenes ? GetRemoveNullRefs(parent, position, rotation) : elements.Dequeue();
+                if (!PersistentPoolInScenes)
+                {
+                    res.transform.SetPositionAndRotation(position, rotation);
+                    if (parentAlways)
+                        res.transform.parent = parent;
+                }
             }
             res.SetActive(true);
             return res;
@@ -227,8 +239,11 @@ namespace SOPRO
             while (elements.Count != 0)
             {
                 GameObject obj = elements.Dequeue();
-                onDestroy(obj);
-                GameObject.Destroy(obj);
+                if (obj)
+                {
+                    onDestroy(obj);
+                    GameObject.Destroy(obj);
+                }
             }
         }
         /// <summary>
@@ -239,7 +254,8 @@ namespace SOPRO
             while (elements.Count != 0)
             {
                 GameObject obj = elements.Dequeue();
-                GameObject.Destroy(obj);
+                if (obj)
+                    GameObject.Destroy(obj);
             }
         }
         /// <summary>
@@ -256,8 +272,11 @@ namespace SOPRO
             while (elements.Count > value)
             {
                 GameObject obj = elements.Dequeue();
-                onDestroy?.Invoke(obj);
-                GameObject.Destroy(obj);
+                if (obj)
+                {
+                    onDestroy?.Invoke(obj);
+                    GameObject.Destroy(obj);
+                }
             }
             while (elements.Count < value)
             {
@@ -266,6 +285,19 @@ namespace SOPRO
                 onRecycle?.Invoke(obj);
                 elements.Enqueue(obj);
             }
+        }
+
+        private GameObject GetRemoveNullRefs(Transform parent = null, Vector3 position = default(Vector3), Quaternion rotation = default(Quaternion))
+        {
+            //Check needed to remove null objects. Objects will be automatically destroyed when changing scenes
+            GameObject obj = null;
+            while (!obj && elements.Count > 0)
+            {
+                obj = elements.Dequeue();
+            }
+            if (!obj)
+                obj = GameObject.Instantiate(Prefab, position, rotation, parent);
+            return obj;
         }
     }
 }
