@@ -3,7 +3,7 @@ using UnityEngine.AI;
 namespace SOPRO
 {
     /// <summary>
-    /// Class that holds an animator property name and calculates its hash value at load time
+    /// Class that holds a navmesh area name and calculates its hash value at load time
     /// </summary>
     [CreateAssetMenu(fileName = "NavMeshArea", menuName = "SOPRO/Unity/NavMeshArea")]
     public class NavMeshAreaHolder : ScriptableObject

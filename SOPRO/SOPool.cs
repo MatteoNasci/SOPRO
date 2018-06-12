@@ -307,16 +307,20 @@ namespace SOPRO
 
         private GameObject GetRemoveNullRefs(out int nullObjsRemoved, Transform parent = null, Vector3 position = default(Vector3), Quaternion rotation = default(Quaternion))
         {
-            nullObjsRemoved = -1;
             //Check needed to remove null objects. Objects will be automatically destroyed when changing scenes
+            nullObjsRemoved = -1;
             GameObject obj = null;
-            while (!obj && elements.Count > 0)
+
+            do
             {
                 obj = elements.Dequeue();
                 nullObjsRemoved++;
             }
+            while (!obj && elements.Count > 0);
+
             if (!obj)
                 obj = GameObject.Instantiate(Prefab, position, rotation, parent);
+
             return obj;
         }
     }

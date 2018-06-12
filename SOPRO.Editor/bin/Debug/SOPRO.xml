@@ -87,7 +87,7 @@
         </member>
         <member name="T:SOPRO.NavMeshAreaHolder">
             <summary>
-            Class that holds an animator property name and calculates its hash value at load time
+            Class that holds a navmesh area name and calculates its hash value at load time
             </summary>
         </member>
         <member name="F:SOPRO.NavMeshAreaHolder.AreaName">
@@ -109,6 +109,22 @@
         <member name="M:SOPRO.NavMeshAreaHolder.op_Implicit(SOPRO.NavMeshAreaHolder)~System.String">
             <summary>
             Converts to area name value
+            </summary>
+            <param name="area">area to convert</param>
+        </member>
+        <member name="T:SOPRO.NavMeshAreaMaskHolder">
+            <summary>
+            Class that holds a navmesh mask value and calculates its hash value at editor time
+            </summary>
+        </member>
+        <member name="F:SOPRO.NavMeshAreaMaskHolder.AreaMaskId">
+            <summary>
+            Calculated area mask id at editor time
+            </summary>
+        </member>
+        <member name="M:SOPRO.NavMeshAreaMaskHolder.op_Implicit(SOPRO.NavMeshAreaMaskHolder)~System.Int32">
+            <summary>
+            Converts to calculated area id value
             </summary>
             <param name="area">area to convert</param>
         </member>
