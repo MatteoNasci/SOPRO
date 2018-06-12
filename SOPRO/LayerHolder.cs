@@ -10,10 +10,12 @@ namespace SOPRO
         /// <summary>
         /// Layer name
         /// </summary>
+        [Tooltip("Layer name")]
         public string LayerName = string.Empty;
         /// <summary>
         /// Layer index calculated at Editor time
         /// </summary>
+        [Tooltip("Layer id")]
         public int LayerIndex;
         void OnValidate()
         {

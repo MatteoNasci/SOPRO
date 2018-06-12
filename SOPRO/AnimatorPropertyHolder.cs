@@ -10,10 +10,12 @@ namespace SOPRO
         /// <summary>
         /// Property Name
         /// </summary>
+        [Tooltip("Animator property name")]
         public string PropertyName = string.Empty;
         /// <summary>
         /// Calculated property hash at load time
         /// </summary>
+        [Tooltip("Animator property hash id")]
         public int PropertyHash;
         void OnEnable()
         {

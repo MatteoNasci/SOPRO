@@ -10,10 +10,12 @@ namespace SOPRO
         /// <summary>
         /// Layer mask
         /// </summary>
+        [Tooltip("LayerMask value")]
         public LayerMask LayerMask = new LayerMask();
         /// <summary>
         /// Layer mask index calculated at Editor time
         /// </summary>
+        [Tooltip("LayerMask id")]
         public int LayerMaskIndex;
         void OnValidate()
         {

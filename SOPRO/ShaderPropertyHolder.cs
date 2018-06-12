@@ -10,10 +10,12 @@ namespace SOPRO
         /// <summary>
         /// Property Name
         /// </summary>
+        [Tooltip("Shader property name")]
         public string PropertyName = string.Empty;
         /// <summary>
         /// Calculated property id at load time
         /// </summary>
+        [Tooltip("Shader property hash id")]
         public int PropertyID;
         void OnEnable()
         {
