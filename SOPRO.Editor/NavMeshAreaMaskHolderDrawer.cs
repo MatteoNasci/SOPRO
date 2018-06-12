@@ -10,11 +10,13 @@ namespace SOPRO.Editor
     public class NavMeshAreaMaskHolderDrawer : UnityEditor.Editor
     {
         private NavMeshAreaMaskHolder mask;
+        private SerializedProperty areaId;
         private string result;
         void OnEnable()
         {
             this.mask = target as NavMeshAreaMaskHolder;
             result = string.Empty;
+            areaId = serializedObject.FindProperty("areaMaskId");
         }
         /// <summary>
         /// Custom inspector draw
@@ -33,16 +35,30 @@ namespace SOPRO.Editor
 
             if (id > 0)
             {
+                int prev = areaId.intValue;
+
                 using (new GUILayout.HorizontalScope())
                 {
-                    if (GUILayout.Button("Add new Layer"))
-                        this.mask.AreaMaskId = this.mask | id;
+                    if (GUILayout.Button("Add new Area"))
+                        areaId.intValue = areaId.intValue | id;
 
                     GUILayout.FlexibleSpace();
 
-                    if (GUILayout.Button("Remove Layer"))
-                        this.mask.AreaMaskId = this.mask & ~id;
+                    if (GUILayout.Button("Remove Area"))
+                        areaId.intValue = areaId.intValue & ~id;
+
                 }
+
+                using (new GUILayout.HorizontalScope())
+                {
+                    GUILayout.FlexibleSpace();
+                    if (GUILayout.Button("Clear all Areas"))
+                        areaId.intValue = 0;
+                    GUILayout.FlexibleSpace();
+                }
+
+                if (prev != areaId.intValue)
+                    serializedObject.ApplyModifiedProperties();
             }
             else
             {

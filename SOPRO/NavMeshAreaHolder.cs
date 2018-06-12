@@ -11,20 +11,20 @@ namespace SOPRO
         /// <summary>
         /// Area Name
         /// </summary>
+        public string AreaName { get { return this.areaName; } }
         [Tooltip("NavMesh area name")]
-        public string AreaName = string.Empty;
+        [SerializeField]
+        private string areaName = string.Empty;
         /// <summary>
         /// Calculated area id at load time
         /// </summary>
+        public int AreaId { get { return this.areaId; } }
         [Tooltip("NavMesh area id")]
-        public int AreaId;
-        void OnEnable()
-        {
-            AreaId = 1 << NavMesh.GetAreaFromName(AreaName);
-        }
+        [SerializeField]
+        private int areaId;
         void OnValidate()
         {
-            OnEnable();
+            areaId = 1 << NavMesh.GetAreaFromName(areaName);
         }
         /// <summary>
         /// Converts to calculated area id value
@@ -32,7 +32,7 @@ namespace SOPRO
         /// <param name="area">area to convert</param>
         public static implicit operator int(NavMeshAreaHolder area)
         {
-            return area.AreaId;
+            return area.areaId;
         }
         /// <summary>
         /// Converts to area name value
@@ -40,7 +40,7 @@ namespace SOPRO
         /// <param name="area">area to convert</param>
         public static implicit operator string(NavMeshAreaHolder area)
         {
-            return area.AreaName;
+            return area.areaName;
         }
     }
 }

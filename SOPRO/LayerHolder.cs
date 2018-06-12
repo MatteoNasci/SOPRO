@@ -10,20 +10,20 @@ namespace SOPRO
         /// <summary>
         /// Layer name
         /// </summary>
+        public string LayerName { get { return this.layerName; } }
         [Tooltip("Layer name")]
-        public string LayerName = string.Empty;
+        [SerializeField]
+        private string layerName = string.Empty;
         /// <summary>
         /// Layer index calculated at Editor time
         /// </summary>
+        public int LayerIndex { get { return this.layerIndex; } }
         [Tooltip("Layer id")]
-        public int LayerIndex;
+        [SerializeField]
+        private int layerIndex;
         void OnValidate()
         {
-            OnEnable();
-        }
-        void OnEnable()
-        {
-            LayerIndex = LayerMask.NameToLayer(LayerName);
+            layerIndex = LayerMask.NameToLayer(layerName);
         }
         /// <summary>
         /// Converts to calculated layer index value
@@ -31,7 +31,7 @@ namespace SOPRO
         /// <param name="layer">layer to convert</param>
         public static implicit operator int(LayerHolder layer)
         {
-            return layer.LayerIndex;
+            return layer.layerIndex;
         }
         /// <summary>
         /// Converts to layer name value
@@ -39,7 +39,7 @@ namespace SOPRO
         /// <param name="layer">layer to convert</param>
         public static implicit operator string(LayerHolder layer)
         {
-            return layer.LayerName;
+            return layer.layerName;
         }
     }
 }

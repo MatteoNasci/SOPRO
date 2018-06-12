@@ -10,15 +10,17 @@ namespace SOPRO
         /// <summary>
         /// Calculated area mask id at editor time
         /// </summary>
+        public int AreaMaskId { get { return this.areaMaskId; } }
         [Tooltip("NavMesh area mask id")]
-        public int AreaMaskId;
+        [SerializeField]
+        private int areaMaskId;
         /// <summary>
         /// Converts to calculated area id value
         /// </summary>
         /// <param name="area">area to convert</param>
         public static implicit operator int(NavMeshAreaMaskHolder area)
         {
-            return area.AreaMaskId;
+            return area.areaMaskId;
         }
     }
 }

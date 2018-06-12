@@ -10,20 +10,20 @@ namespace SOPRO
         /// <summary>
         /// Layer mask
         /// </summary>
+        public LayerMask LayerMask { get { return this.layerMask; } }
         [Tooltip("LayerMask value")]
-        public LayerMask LayerMask = new LayerMask();
+        [SerializeField]
+        private LayerMask layerMask = new LayerMask();
         /// <summary>
         /// Layer mask index calculated at Editor time
         /// </summary>
+        public int LayerMaskIndex { get { return this.layerMaskIndex; } }
         [Tooltip("LayerMask id")]
-        public int LayerMaskIndex;
+        [SerializeField]
+        private int layerMaskIndex;
         void OnValidate()
         {
-            OnEnable();
-        }
-        void OnEnable()
-        {
-            LayerMaskIndex = LayerMask.value;
+            layerMaskIndex = layerMask.value;
         }
         /// <summary>
         /// Converts to calculated layer index value
@@ -31,7 +31,7 @@ namespace SOPRO
         /// <param name="layer">layer to convert</param>
         public static implicit operator int(LayerMaskHolder layer)
         {
-            return layer.LayerMaskIndex;
+            return layer.layerMaskIndex;
         }
         /// <summary>
         /// Converts to layer mask
@@ -39,7 +39,7 @@ namespace SOPRO
         /// <param name="layer">layer to convert</param>
         public static implicit operator LayerMask(LayerMaskHolder layer)
         {
-            return layer.LayerMask;
+            return layer.layerMask;
         }
     }
 }

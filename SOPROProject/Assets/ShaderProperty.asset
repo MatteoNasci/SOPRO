@@ -11,5 +11,5 @@ MonoBehaviour:
   m_Script: {fileID: 29146252, guid: 7d6b284e18a06314ea7b65d1fe4236f6, type: 3}
   m_Name: ShaderProperty
   m_EditorClassIdentifier: 
-  PropertyName: Props
-  PropertyID: 0
+  propertyName: hello
+  propertyHash: 275
