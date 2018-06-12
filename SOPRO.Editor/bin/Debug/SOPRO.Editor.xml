@@ -1219,6 +1219,16 @@
             Listener will register/unregister on OnEnable/OnDisable
             </summary>
         </member>
+        <member name="T:NavMeshAreaMaskHolderDrawer">
+            <summary>
+            Class that draws a custom inspector for NavMeshAreaMaskHolder
+            </summary>
+        </member>
+        <member name="M:NavMeshAreaMaskHolderDrawer.OnInspectorGUI">
+            <summary>
+            Custom inspector draw
+            </summary>
+        </member>
         <member name="T:GeneratorType">
             <summary>
             List of generator types available
