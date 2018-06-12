@@ -11,10 +11,12 @@ namespace SOPRO
         /// <summary>
         /// Area Name
         /// </summary>
+        [Tooltip("NavMesh area name")]
         public string AreaName = string.Empty;
         /// <summary>
         /// Calculated area id at load time
         /// </summary>
+        [Tooltip("NavMesh area id")]
         public int AreaId;
         void OnEnable()
         {
