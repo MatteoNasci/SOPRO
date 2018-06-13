@@ -29,6 +29,14 @@ namespace SOPRO
         {
             Event.RemoveListener(this);
         }
+				protected virtual void Awake()
+        {
+            Event.AddListener(this);
+        }
+		protected virtual void OnDestroy()
+        {
+            Event.RemoveListener(this);
+        }
 		        /// <summary>
         /// Invokes unity event
         /// </summary>
