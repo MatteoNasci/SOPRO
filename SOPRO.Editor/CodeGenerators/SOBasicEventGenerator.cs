@@ -164,16 +164,16 @@ namespace SOPRO.Editor.CodeGenerators
             
             #line default
             #line hidden
-            this.Write(")\r\n        {\r\n\t\t\tEvent.Invoke(");
+            this.Write(")\r\n        {\r\n\t\t\tif(Event != null)\r\n\t\t\t\tEvent.Invoke(");
             
-            #line 51 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOBasicEventGenerator.tt"
+            #line 52 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOBasicEventGenerator.tt"
             this.Write(this.ToStringHelper.ToStringWithCulture(GenericArguments));
             
             #line default
             #line hidden
             this.Write(");\r\n        }\r\n    }\r\n");
             
-            #line 54 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOBasicEventGenerator.tt"
+            #line 55 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOBasicEventGenerator.tt"
  if(Namespace != null && Namespace.Length > 0)
 {
             
@@ -181,7 +181,7 @@ namespace SOPRO.Editor.CodeGenerators
             #line hidden
             this.Write("}\r\n");
             
-            #line 57 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOBasicEventGenerator.tt"
+            #line 58 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOBasicEventGenerator.tt"
 
 }
 
@@ -191,7 +191,7 @@ namespace SOPRO.Editor.CodeGenerators
             return this.GenerationEnvironment.ToString();
         }
         
-        #line 60 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOBasicEventGenerator.tt"
+        #line 61 "D:\GitProjects\Self\SOPRO\SOPRO.Editor\CodeGenerators\SOBasicEventGenerator.tt"
 
 public string Namespace { get; set; }
 public string ClassName { get; set; }

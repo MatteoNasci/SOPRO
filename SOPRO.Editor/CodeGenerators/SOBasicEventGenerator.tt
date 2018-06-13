@@ -48,7 +48,8 @@ namespace <#= Namespace #>
         /// </summary>
         public override void Raise(<#= GenericArgumentsWithTypes #>)
         {
-			Event.Invoke(<#= GenericArguments #>);
+			if(Event != null)
+				Event.Invoke(<#= GenericArguments #>);
         }
     }
 <# if(Namespace != null && Namespace.Length > 0)
