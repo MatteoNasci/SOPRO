@@ -65,7 +65,8 @@ namespace SOPRO
         public GameObject Get(Action<GameObject> onGet, out int nullObjsRemoved)
         {
             nullObjsRemoved = 0;
-            GameObject res = elements.Count == 0 ? GameObject.Instantiate(Prefab) : (PersistentPoolInScenes ? GetRemoveNullRefs(out nullObjsRemoved) : elements.Dequeue());
+            bool instantiated;
+            GameObject res = elements.Count == 0 ? GameObject.Instantiate(Prefab) : (PersistentPoolInScenes ? GetRemoveNullRefs(out nullObjsRemoved, out instantiated) : elements.Dequeue());
             onGet(res);
             res.SetActive(true);
             return res;
@@ -78,7 +79,8 @@ namespace SOPRO
         public GameObject Get(out int nullObjsRemoved)
         {
             nullObjsRemoved = 0;
-            GameObject res = elements.Count == 0 ? GameObject.Instantiate(Prefab) : (PersistentPoolInScenes ? GetRemoveNullRefs(out nullObjsRemoved) : elements.Dequeue());
+            bool instantiated;
+            GameObject res = elements.Count == 0 ? GameObject.Instantiate(Prefab) : (PersistentPoolInScenes ? GetRemoveNullRefs(out nullObjsRemoved, out instantiated) : elements.Dequeue());
             res.SetActive(true);
             return res;
         }
@@ -90,7 +92,8 @@ namespace SOPRO
         public GameObject DirectGet(out int nullObjsRemoved)
         {
             nullObjsRemoved = 0;
-            return elements.Count == 0 ? GameObject.Instantiate(Prefab) : (PersistentPoolInScenes ? GetRemoveNullRefs(out nullObjsRemoved) : elements.Dequeue());
+            bool instantiated;
+            return elements.Count == 0 ? GameObject.Instantiate(Prefab) : (PersistentPoolInScenes ? GetRemoveNullRefs(out nullObjsRemoved, out instantiated) : elements.Dequeue());
         }
         /// <summary>
         /// Requests an element from the pool. The object will not be enabled
@@ -102,6 +105,7 @@ namespace SOPRO
         public GameObject DirectGet(Transform parent, out int nullObjsRemoved, out bool hasBeenParented)
         {
             nullObjsRemoved = 0;
+            hasBeenParented = false;
             if (elements.Count == 0)
             {
                 hasBeenParented = true;
@@ -109,8 +113,7 @@ namespace SOPRO
             }
             else
             {
-                hasBeenParented = PersistentPoolInScenes;
-                return PersistentPoolInScenes ? GetRemoveNullRefs(out nullObjsRemoved, parent) : elements.Dequeue();
+                return PersistentPoolInScenes ? GetRemoveNullRefs(out nullObjsRemoved, out hasBeenParented, parent) : elements.Dequeue();
             }
         }
         /// <summary>
@@ -125,6 +128,7 @@ namespace SOPRO
         public GameObject DirectGet(Transform parent, Vector3 position, Quaternion rotation, out int nullObjsRemoved, out bool hasBeenParentedAndPositioned)
         {
             nullObjsRemoved = 0;
+            hasBeenParentedAndPositioned = false;
             if (elements.Count == 0)
             {
                 hasBeenParentedAndPositioned = true;
@@ -132,8 +136,7 @@ namespace SOPRO
             }
             else
             {
-                hasBeenParentedAndPositioned = PersistentPoolInScenes;
-                return PersistentPoolInScenes ? GetRemoveNullRefs(out nullObjsRemoved, parent, position, rotation) : elements.Dequeue();
+                return PersistentPoolInScenes ? GetRemoveNullRefs(out nullObjsRemoved, out hasBeenParentedAndPositioned, parent, position, rotation) : elements.Dequeue();
             }
         }
         /// <summary>
@@ -154,8 +157,9 @@ namespace SOPRO
             }
             else
             {
-                res = PersistentPoolInScenes ? GetRemoveNullRefs(out nullObjsRemoved, parent) : elements.Dequeue();
-                if (!PersistentPoolInScenes && parentAlways)
+                bool instantiated = false;
+                res = PersistentPoolInScenes ? GetRemoveNullRefs(out nullObjsRemoved, out instantiated, parent) : elements.Dequeue();
+                if (!instantiated && parentAlways)
                     res.transform.parent = parent;
             }
             onGet(res);
@@ -179,8 +183,9 @@ namespace SOPRO
             }
             else
             {
-                res = PersistentPoolInScenes ? GetRemoveNullRefs(out nullObjsRemoved, parent) : elements.Dequeue();
-                if (!PersistentPoolInScenes && parentAlways)
+                bool instantiated = false;
+                res = PersistentPoolInScenes ? GetRemoveNullRefs(out nullObjsRemoved, out instantiated, parent) : elements.Dequeue();
+                if (!instantiated && parentAlways)
                     res.transform.parent = parent;
             }
             res.SetActive(true);
@@ -206,8 +211,9 @@ namespace SOPRO
             }
             else
             {
-                res = PersistentPoolInScenes ? GetRemoveNullRefs(out nullObjsRemoved, parent, position, rotation) : elements.Dequeue();
-                if (!PersistentPoolInScenes)
+                bool instantiated = false;
+                res = PersistentPoolInScenes ? GetRemoveNullRefs(out nullObjsRemoved, out instantiated, parent, position, rotation) : elements.Dequeue();
+                if (!instantiated)
                 {
                     res.transform.SetPositionAndRotation(position, rotation);
                     if (parentAlways)
@@ -237,8 +243,9 @@ namespace SOPRO
             }
             else
             {
-                res = PersistentPoolInScenes ? GetRemoveNullRefs(out nullObjsRemoved, parent, position, rotation) : elements.Dequeue();
-                if (!PersistentPoolInScenes)
+                bool instantiated = false;
+                res = PersistentPoolInScenes ? GetRemoveNullRefs(out nullObjsRemoved, out instantiated, parent, position, rotation) : elements.Dequeue();
+                if (!instantiated)
                 {
                     res.transform.SetPositionAndRotation(position, rotation);
                     if (parentAlways)
@@ -305,10 +312,11 @@ namespace SOPRO
             }
         }
 
-        private GameObject GetRemoveNullRefs(out int nullObjsRemoved, Transform parent = null, Vector3 position = default(Vector3), Quaternion rotation = default(Quaternion))
+        private GameObject GetRemoveNullRefs(out int nullObjsRemoved, out bool instantiated, Transform parent = null, Vector3 position = default(Vector3), Quaternion rotation = default(Quaternion))
         {
             //Check needed to remove null objects. Objects will be automatically destroyed when changing scenes
             nullObjsRemoved = -1;
+            instantiated = false;
             GameObject obj = null;
 
             do
@@ -319,7 +327,10 @@ namespace SOPRO
             while (!obj && elements.Count > 0);
 
             if (!obj)
+            {
                 obj = GameObject.Instantiate(Prefab, position, rotation, parent);
+                instantiated = true;
+            }
 
             return obj;
         }
