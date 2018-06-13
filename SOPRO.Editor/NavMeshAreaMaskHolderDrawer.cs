@@ -23,8 +23,9 @@ namespace SOPRO.Editor
         /// </summary>
         public override void OnInspectorGUI()
         {
-            base.OnInspectorGUI();
+            EditorGUILayout.LabelField("Current Area Mask Value: " + areaId.intValue);
 
+            EditorGUILayout.Space();
             EditorGUILayout.Space();
 
             result = EditorGUILayout.TextField("NavMesh Area name", result);
@@ -36,6 +37,7 @@ namespace SOPRO.Editor
             if (id > 0)
             {
                 int prev = areaId.intValue;
+                bool present = (prev & id) != 0;
 
                 using (new GUILayout.HorizontalScope())
                 {
@@ -56,6 +58,9 @@ namespace SOPRO.Editor
                         areaId.intValue = 0;
                     GUILayout.FlexibleSpace();
                 }
+
+                if (present)
+                    EditorGUILayout.HelpBox("The inserted area name is present in the mask", MessageType.Info);
 
                 if (prev != areaId.intValue)
                     serializedObject.ApplyModifiedProperties();
